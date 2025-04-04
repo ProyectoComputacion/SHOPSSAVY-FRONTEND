@@ -1,0 +1,50 @@
+<div class="container-detalle" *ngIf="recetaCargada">
+  <!-- Título principal -->
+  <h2 class="titulo">Detalles de la receta</h2>
+
+  <!-- Encabezado con imagen y texto superpuesto -->
+  <div class="receta-header">
+    <img [src]="receta.imagen" alt="{{ receta.name }}" class="receta-img" />
+    <div class="receta-overlay">
+      <h3 class="receta-name">{{ receta.name }}</h3>
+      <p class="receta-tipo">
+        {{ receta.tipo === 'Recetas Michelin' ? 'Michelin €€€' : 'Normal €€' }}
+      </p>
+    </div>
+  </div>
+
+  <!-- Sección de ingredientes -->
+  <div class="receta-info">
+    <h4>Ingredientes</h4>
+    <ul *ngIf="ingredientes.length > 0">
+      <li *ngFor="let ingrediente of ingredientes">
+        {{ ingrediente.quantity }} {{ ingrediente.unit }} - {{ ingrediente.name }}
+      </li>
+    </ul>
+    <p *ngIf="ingredientes.length === 0">No hay ingredientes disponibles.</p>
+  </div>
+
+  <!-- Botones de acción -->
+  <div class="receta-acciones">
+    <button class="btn-volver" (click)="volver()">Volver</button>
+    <button class="btn-carrito" (click)="agregarAlCarrito()">Añadir Carrito</button>
+  </div>
+</div>
+
+<!-- Modal de confirmación -->
+<div class="modal fade" id="carritoModal" tabindex="-1" aria-labelledby="carritoModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="carritoModalLabel">Receta Añadida</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        La receta ha sido añadida al carrito con éxito.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>

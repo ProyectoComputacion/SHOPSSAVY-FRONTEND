@@ -1,0 +1,45 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="!isAuthPage()">
+  <div class="container-fluid">
+    <!-- Logo o marca -->
+    <a class="navbar-brand" routerLink="/home"><b>ShopSavy</b></a>
+
+    <!-- Botón para colapsar/expandir en pantallas pequeñas -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Contenedor del menú -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <!-- Links de navegación a la izquierda -->
+      <ul class="navbar-nav">
+        <ng-container *ngFor="let item of menuItems">
+          <li class="nav-item"
+              *ngIf="item.link !== '/logout' && (!item.role || item.role === userRole?.trim())"
+              [ngClass]="{'active': isActive(item.link)}">
+            <a class="nav-link" [routerLink]="item.link">
+              {{ item.label }}
+            </a>
+          </li>
+        </ng-container>
+      </ul>
+
+      <!-- "Cerrar sesión" alineado a la derecha con submenú -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleLogoutMenu($event)">
+            Otras Opciones
+          </a>
+          <ul class="dropdown-menu" [ngClass]="{'show': logoutMenuOpen}">
+            <li>
+              <a class="dropdown-item" (click)="logout()">Cerrar sesión</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Aquí se mostrarán las distintas páginas según la ruta -->
+<router-outlet></router-outlet>

@@ -1,0 +1,28 @@
+<div class="container">
+  <h2 class="titulo">Mis Recetas Favoritas</h2>
+
+  <!-- Filtro por Categoría -->
+  <div class="filtro-container">
+    <label for="categoria">Filtrar por categoría:</label>
+    <select id="categoria" class="filtro" [(ngModel)]="filtroCategoria" (change)="filtrarFavoritos()">
+      <option value="">Todas las categorías</option>
+      <option *ngFor="let categoria of categorias" [value]="categoria">
+        {{ categoria }}
+      </option>
+    </select>
+  </div>
+
+  <!-- Lista de Favoritos -->
+  <div class="recetas-grid">
+    <div class="receta-card" *ngFor="let favorito of favoritos" (click)="verDetalles(favorito.recipe.id)">
+      <div class="receta-img-container" *ngIf="favorito.recipe.imagen">
+        <img [src]="favorito.recipe.imagen" alt="{{ favorito.recipe.name }}" class="receta-img">
+      </div>
+      <div class="receta-info">
+        <h3 class="receta-titulo">{{ favorito.recipe.name }}</h3>
+        <p class="receta-categoria">Categoría: {{ favorito.category }}</p>
+        <button class="eliminar-btn" (click)="eliminarFavorito(favorito.id); $event.stopPropagation()">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,89 @@
+/* Mantener el navbar con alineación a la izquierda */
+.navbar .container-fluid {
+  display: flex;
+  justify-content: space-between; /* ✅ Alinea opciones a la izquierda y "Cerrar sesión" a la derecha */
+  align-items: center;
+  cursor: pointer;
+}
+
+/* Ajustar la barra de navegación */
+.navbar-nav {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  padding: 5px 0;
+}
+
+/* ✅ Alinear todas las opciones a la izquierda excepto "Cerrar sesión" */
+.navbar-nav.left {
+  justify-content: flex-start; /* ✅ Alineación izquierda */
+}
+
+.navbar-nav.right {
+  margin-left: auto; /* ✅ Mueve "Cerrar sesión" a la derecha */
+}
+
+/* ✅ Cada opción de navegación tiene un contenedor */
+.nav-item {
+  position: relative;
+  padding: 5px 10px;
+  border-radius: 8px;
+  transition: background 0.3s ease-in-out;
+}
+
+/* ✅ Opción seleccionada con contenedor naranja */
+.nav-item .nav-link.active {
+  background: orange !important;
+  color: black !important;
+  border-radius: 5px;
+  padding: 10px 15px;
+}
+
+/* ✅ Hover */
+.nav-item .nav-link:hover {
+  background: rgba(255, 165, 0, 0.2);
+}
+
+/* ✅ Ajustar el menú en pantallas pequeñas */
+@media (max-width: 992px) {
+  .navbar-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .navbar .container-fluid {
+    justify-content: space-between; /* ✅ Mantiene todo alineado correctamente */
+  }
+/* Asegurar que el submenú se abra hacia la izquierda y tenga un tamaño más pequeño */
+.navbar-nav .dropdown-menu {
+  position: absolute;
+  right: 0;
+  left: auto;
+  transform: translateX(-100%);
+  min-width: 100px; /* 🔹 Ancho mínimo reducido */
+  max-width: 120px; /* 🔹 Ancho máximo reducido */
+  padding: 5px 8px; /* 🔹 Espaciado interno más ajustado */
+  font-size: 0.9rem; /* 🔹 Texto más compacto */
+}
+
+/* Asegurar que el submenú se muestre correctamente */
+.dropdown-menu {
+  display: none;
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
+/* Ajuste extra para pantallas pequeñas */
+@media (max-width: 768px) {
+  .navbar-nav .dropdown-menu {
+    right: auto;
+    left: 0;
+    transform: translateX(0);
+    min-width: 90px; /* 🔹 Reducimos aún más en móviles */
+    max-width: 110px;
+  }
+}
+
+}

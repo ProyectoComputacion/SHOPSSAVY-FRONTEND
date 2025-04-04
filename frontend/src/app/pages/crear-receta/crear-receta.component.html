@@ -1,0 +1,72 @@
+<div class="container mt-4">
+    <h2>Crear Nueva Receta</h2>
+
+    <div class="mb-3">
+        <label class="form-label">Nombre de la receta</label>
+        <input type="text" class="form-control" [(ngModel)]="nombreReceta" placeholder="Ej. Pasta Carbonara">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Tipo de receta</label>
+        <select class="form-select" [(ngModel)]="tipoReceta">
+            <option value="Recetas">Recetas</option>
+            <option value="Recetas Michelin">Recetas Michelin</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Categoría</label>
+        <select class="form-select" [(ngModel)]="categoriaReceta">
+            <option *ngFor="let cat of categorias" [value]="cat">{{ cat | titlecase }}</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">URL de la Imagen</label>
+        <input [(ngModel)]="imagenReceta" class="form-control" placeholder="https://ejemplo.com/imagen.jpg">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Buscar Producto</label>
+        <div class="input-group">
+            <input type="text" class="form-control" [(ngModel)]="searchQuery" placeholder="Ej. Aceite">
+            <button class="btn btn-primary" (click)="buscarProductos()">Buscar</button>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let producto of productos">
+                {{ producto.name }}
+                <button class="btn btn-success btn-sm" (click)="agregarIngrediente(producto)">Añadir</button>
+            </li>
+        </ul>
+    </div>
+
+<!-- Lista de ingredientes seleccionados -->
+<div class="mb-3">
+    <h5>Ingredientes seleccionados</h5>
+    <ul class="list-group">
+      <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let ingrediente of ingredientesSeleccionados">
+        <div>
+          <strong>{{ ingrediente.name }}</strong>
+          <div class="input-group mt-1">
+            <input type="number" class="form-control form-control-sm" [(ngModel)]="ingrediente.quantity" placeholder="Cantidad" min="0.01" step="0.01">
+            <select class="form-select form-select-sm" [(ngModel)]="ingrediente.unit">
+              <option value="unidad">Unidad</option>
+              <option value="g">Gramos</option>
+              <option value="kg">Kilogramos</option>
+              <option value="ml">Mililitros</option>
+              <option value="l">Litros</option>
+              <option value="cda">Cucharada</option>
+              <option value="cdita">Cucharadita</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-danger btn-sm" (click)="eliminarIngrediente(ingrediente.id)">Eliminar</button>
+      </li>
+    </ul>
+  </div>
+  
+    <button class="btn btn-primary mt-3" (click)="guardarReceta()">Guardar Receta</button>
+</div>

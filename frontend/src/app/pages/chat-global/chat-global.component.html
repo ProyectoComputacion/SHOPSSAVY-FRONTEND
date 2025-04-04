@@ -1,0 +1,21 @@
+<div class="chat-container">
+    <h2>Chat Global</h2>
+  
+    <!-- 📌 Lista de mensajes -->
+    <div class="messages">
+      <div *ngFor="let msg of messages" class="message">
+        <strong>
+          <span *ngIf="msg.user && msg.user.role === 'chef'">👨‍🍳 Chef {{ msg.user.name }}:</span>
+          <span *ngIf="msg.user && msg.user.role !== 'chef'">{{ msg.user.name }}:</span>
+        </strong> 
+        {{ msg.message }}
+      </div>
+    </div>
+  
+    <!-- 📌 Campo para escribir y enviar mensaje -->
+    <div class="input-container">
+      <input [(ngModel)]="newMessage" placeholder="Escribe un mensaje..." />
+      <button (click)="enviarMensaje()">Enviar</button>
+    </div>
+  </div>
+  

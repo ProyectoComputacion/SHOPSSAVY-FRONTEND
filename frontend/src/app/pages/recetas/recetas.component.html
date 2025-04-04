@@ -1,0 +1,76 @@
+<div class="container">
+  <h2 class="titulo">RECETAS</h2>
+
+  <!-- Filtros -->
+  <div class="filtros">
+    <select class="filtro" [(ngModel)]="filtroCategoria" (change)="filtrarRecetas()">
+      <option value="">Categorías</option>
+      <option *ngFor="let categoria of categorias" [value]="categoria">
+        {{ categoria | titlecase }}
+      </option>
+    </select>
+
+    <select class="filtro" [(ngModel)]="filtroTipo" (change)="filtrarRecetas()">
+      <option value="">Todo tipo de recetas</option>
+      <option *ngFor="let tipo of tipos" [value]="tipo">
+        {{ tipo | titlecase }}
+      </option>
+    </select>
+  </div>
+
+  <!-- Lista de Recetas -->
+  <div class="recetas-grid">
+    <div class="receta-card" *ngFor="let receta of recetasFiltradas">
+      <div class="receta-img-container">
+        <img [src]="receta.imagen" alt="{{ receta.name }}" class="receta-img">
+        <h3 class="receta-titulo">{{ receta.name }}</h3>
+      </div>
+      <div class="receta-info">
+        <span class="receta-categoria" [ngClass]="{ 'michelin': receta.tipo === 'Recetas Michelin' }">
+          {{ receta.tipo === 'Recetas Michelin' ? 'Michelin €€€' : 'Normal €€' }}
+        </span>
+        <div class="botones">
+          <!-- Botón para abrir el modal de favoritos -->
+          <button class="favorito-btn" (click)="abrirModalCategoria(receta)">☆</button>
+          <!-- Botón para ver detalles -->
+          <button class="receta-btn" (click)="verDetalles(receta.id)">Ver detalles</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PARA ELEGIR LA CATEGORÍA DE FAVORITO -->
+<div
+  class="modal fade"
+  id="modalCategoriaFavorito"
+  tabindex="-1"
+  aria-labelledby="modalCategoriaFavoritoLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalCategoriaFavoritoLabel">Elige una categoría</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Grid con 3 tarjetas (imágenes) para seleccionar categoría -->
+        <div class="categorias-grid">
+          <div class="categoria-card" (click)="seleccionarCategoria('Especial para invitados')">
+            <img src="/assets/imgs/invitados.jpg" alt="Invitados" />
+            <h6>Especial para invitados</h6>
+          </div>
+          <div class="categoria-card" (click)="seleccionarCategoria('Recetas saludables')">
+            <img src="/assets/imgs/saludable.jpg" alt="Saludable" />
+            <h6>Recetas saludables</h6>
+          </div>
+          <div class="categoria-card" (click)="seleccionarCategoria('Para cenas rápidas')">
+            <img src="/assets/imgs/rapida.jpeg" alt="Rápida" />
+            <h6>Para cenas rápidas</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
