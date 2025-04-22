@@ -1,11 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RatingService } from '../../services/rating.service';
 
 @Component({
   selector: 'app-comparacion',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './clasificados.component.html',
-  styleUrl: './clasificados.component.scss'
+  styleUrls: ['./clasificados.component.scss']
 })
-export class ClasificadosComponent {
+export class ClasificadosComponent implements OnInit {
+  recetasTop: any[] = [];
 
+  constructor(private ratingService: RatingService) {}
+
+  ngOnInit(): void {
+    this.ratingService.getTopRatedRecipes().subscribe({
+      next: (data) => {
+        this.recetasTop = data;
+        console.log('Recetas mejor valoradas:', data);
+      },
+      error: (error) => {
+        console.error('Error al cargar las recetas top:', error);
+      }
+    });
+  }
 }

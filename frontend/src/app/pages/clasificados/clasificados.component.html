@@ -1,1 +1,33 @@
-<p>Clasificado Se muestra</p>
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">Recetas Mejor Valoradas</h2>
+  
+    <div *ngIf="recetasTop.length > 0; else sinDatos">
+      <div class="row g-4">
+        <div *ngFor="let receta of recetasTop" class="col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm">
+            <!-- ✅ Imagen de la receta -->
+            <img *ngIf="receta.recipe?.imagen"
+                 [src]="receta.recipe.imagen"
+                 class="card-img-top"
+                 alt="{{ receta.recipe?.name }}"
+                 style="height: 200px; object-fit: cover;">
+  
+            <div class="card-body text-center">
+              <h5 class="card-title">{{ receta.recipe?.name || ('Receta #' + receta.recipe_id) }}</h5>
+              <p class="card-text">
+                ⭐ Promedio: <strong>{{ receta.avg_rating | number:'1.1-2' }}</strong><br />
+                🧑‍🍳 Valoraciones: {{ receta.total_reviews }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <ng-template #sinDatos>
+      <div class="alert alert-info text-center" role="alert">
+        No hay recetas con valoraciones suficientes.
+      </div>
+    </ng-template>
+  </div>
+  

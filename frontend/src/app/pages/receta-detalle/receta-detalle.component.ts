@@ -4,6 +4,7 @@ import { RecetaService, Recipe, Ingredient } from '../../services/receta.service
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { CartService } from '../../services/cart.service';
+import { RatingService } from '../../services/rating.service';
 
 
 
@@ -21,8 +22,13 @@ export class RecetaDetalleComponent implements OnInit {
   ingredientes: Ingredient[] = [];
   recetaCargada: boolean = false;
 
-  constructor(private route: ActivatedRoute, private recetaService: RecetaService, private cartService: CartService) {}
-
+  constructor(
+    private route: ActivatedRoute,
+    private recetaService: RecetaService,
+    private cartService: CartService,
+    private ratingService: RatingService // ✅ NUEVO
+  ) {}
+  
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (!isNaN(id)) {
@@ -57,6 +63,64 @@ export class RecetaDetalleComponent implements OnInit {
     );
   }
 
+  calificacionSeleccionada: number = 0; // ⭐ Calificación actual
+  mensajeConfirmacion: boolean = false; 
+  /**
+   * Boton "Calificar"
+   * Abre un modal de calificación
+   */
+  calificar(): void {
+    const modalElement = document.getElementById('calificarModal'); // 👈 Nuevo: busca el modal por ID
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement); // 👈 Nuevo: crea una instancia del modal
+      modal.show(); // 👈 Nuevo: muestra el modal
+    } else {
+      console.error('No se encontró el modal de calificación'); // 👈 Nuevo: log de error si falta el modal
+    }
+  }
+
+  /**
+   * Enviar calificación 
+   */
+
+  seleccionarCalificacion(valor: number): void {
+    this.calificacionSeleccionada = valor;
+  }
+  
+  confirmarCalificacion(): void {
+    const user_id = Number(sessionStorage.getItem('user_id'));
+    const recipe_id = this.receta?.id;
+  
+    if (this.calificacionSeleccionada > 0 && user_id && recipe_id) {
+      // ✅ Quitar el foco del elemento activo antes de enviar la calificación
+      const active = document.activeElement as HTMLElement;
+      if (active) active.blur();
+  
+      this.ratingService.enviarCalificacion(user_id, recipe_id, this.calificacionSeleccionada).subscribe({
+        next: (response) => {
+          console.log('Respuesta del servidor:', response);
+          this.mensajeConfirmacion = true;
+  
+          setTimeout(() => {
+            this.mensajeConfirmacion = false;
+  
+            // ✅ Cierre del modal (ya sin foco en un elemento interno)
+            const modalElement = document.getElementById('calificarModal');
+            const modal = bootstrap.Modal.getInstance(modalElement);
+            if (modal) modal.hide();
+          }, 2000);
+        },
+        error: (error) => {
+          console.error('Error al enviar la calificación:', error);
+          alert('Hubo un error al enviar tu calificación. Inténtalo nuevamente.');
+        }
+      });
+    } else {
+      alert('Debes seleccionar una calificación válida.');
+    }
+  }
+  
+  
   /**
    * Botón "Volver"
    */
