@@ -4,6 +4,7 @@ import { AuthService } from './auth/auth.service';
 import { RouterOutlet, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-root',
@@ -21,9 +22,9 @@ export class AppComponent implements OnInit {
   menuItems = [
     { label: 'Inicio', link: '/home' },
     { label: 'Recetas', link: '/recetas' },
-    { label: 'Carrito', link: '/carrito' },
-    { label: 'Calificados', link: '/clasificados' },
-    { label: 'Favoritos', link: '/favoritos' },
+    { label: 'Carrito', link: '/carrito', protected: true },
+    { label: 'Calificados', link: '/clasificados', protected: true },
+    { label: 'Favoritos', link: '/favoritos', protected: true },
     { label: 'Presupuesto', link: '/presupuesto' },
     { label: 'Crea Tu Receta', link: '/crear-receta', role: 'chef' },
     { label: '', link: '' },
@@ -77,4 +78,50 @@ export class AppComponent implements OnInit {
     event.preventDefault(); // Evita que el enlace se active
     this.logoutMenuOpen = !this.logoutMenuOpen; // 🔄 Alternar el submenú
   }
+
+  redirigirLogin(): void {
+    const modalElement = document.getElementById('authRequiredModal');
+    if (modalElement) {
+      const modal = bootstrap.Modal.getInstance(modalElement);
+      modal?.hide();
+    }
+    this.router.navigate(['/login']);
+  }
+  
+  redirigirRegistro(): void {
+    const modalElement = document.getElementById('authRequiredModal');
+    if (modalElement) {
+      const modal = bootstrap.Modal.getInstance(modalElement);
+      modal?.hide();
+    }
+    this.router.navigate(['/register']);
+  }
+  
+  mostrarModalAuth(): void {
+    const modalElement = document.getElementById('authRequiredModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
+  
+  handleMenuClick(item: any, event: Event): void {
+    event.preventDefault();
+  
+    if (item.link === '/logout') {
+      this.logout();
+      return;
+    }
+  
+    const isProtected = item.protected;
+    const isLoggedIn = !!sessionStorage.getItem('user_id');
+  
+    if (isProtected && !isLoggedIn) {
+      this.mostrarModalAuth();
+      return;
+    }
+  
+    this.router.navigate([item.link]);
+  }
+  
 }

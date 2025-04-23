@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { CartService } from '../../services/cart.service';
 import { RatingService } from '../../services/rating.service';
+import { AppComponent } from '../../app.component';
 
 
 
@@ -26,7 +27,8 @@ export class RecetaDetalleComponent implements OnInit {
     private route: ActivatedRoute,
     private recetaService: RecetaService,
     private cartService: CartService,
-    private ratingService: RatingService // ✅ NUEVO
+    private ratingService: RatingService,
+    private app: AppComponent
   ) {}
   
   ngOnInit(): void {
@@ -70,14 +72,21 @@ export class RecetaDetalleComponent implements OnInit {
    * Abre un modal de calificación
    */
   calificar(): void {
-    const modalElement = document.getElementById('calificarModal'); // 👈 Nuevo: busca el modal por ID
+    const isLoggedIn = !!sessionStorage.getItem('user_id');
+    if (!isLoggedIn) {
+      this.app.mostrarModalAuth(); // ✅ Modal global si no está logueado
+      return;
+    }
+  
+    const modalElement = document.getElementById('calificarModal');
     if (modalElement) {
-      const modal = new bootstrap.Modal(modalElement); // 👈 Nuevo: crea una instancia del modal
-      modal.show(); // 👈 Nuevo: muestra el modal
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
     } else {
-      console.error('No se encontró el modal de calificación'); // 👈 Nuevo: log de error si falta el modal
+      console.error('No se encontró el modal de calificación');
     }
   }
+  
 
   /**
    * Enviar calificación 
@@ -132,27 +141,24 @@ export class RecetaDetalleComponent implements OnInit {
    * Añadir receta al carrito (muestra modal de confirmación)
    */
   agregarAlCarrito(): void {
+    const isLoggedIn = !!sessionStorage.getItem('user_id');
+    if (!isLoggedIn) {
+      this.app.mostrarModalAuth(); // ✅ Modal global si no está logueado
+      return;
+    }
+  
     if (!this.receta) {
       console.error('No hay receta cargada');
       return;
     }
   
-    const userId = Number(sessionStorage.getItem('user_id')); // Asegúrate de tener el user_id
-    console.log('user_id desde sessionStorage:', userId); // Verifica que el valor del user_id es correcto
-  
-    if (!userId) {
-      console.error('No se ha encontrado un ID de usuario válido');
-      return;
-    }
-  
+    const userId = Number(sessionStorage.getItem('user_id'));
     const recipeId = this.receta.id;
-    const recipeType = this.receta.tipo; // Asegúrate de que 'tipo' está bien definido en el modelo
+    const recipeType = this.receta.tipo;
   
     this.cartService.addToCart(userId, recipeId, recipeType).subscribe({
       next: (response) => {
         console.log('Receta añadida al carrito:', response);
-  
-        // ✅ Mostrar modal de confirmación
         const modalElement = document.getElementById('carritoModal');
         if (modalElement) {
           const modal = new bootstrap.Modal(modalElement);
@@ -161,7 +167,6 @@ export class RecetaDetalleComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error al agregar al carrito:', error);
-        console.log(userId, recipeId, recipeType);
       }
     });
   }
