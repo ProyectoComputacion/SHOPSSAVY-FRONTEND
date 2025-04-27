@@ -1,34 +1,36 @@
-<div class="container mt-4">
-  <h2 class="mb-4 text-center">Recetas Mejor Valoradas</h2>
+<div class="bg-beige min-vh-100 py-4">
+  <div class="container bg-white rounded shadow p-4">
+    <div *ngIf="recetasTop.length > 0; else sinDatos">
+      <div class="row g-4">
+        <div *ngFor="let receta of recetasTop" class="col-12 col-md-6 col-lg-3">
+          <!-- ✅ Enlace completo -->
+          <a [routerLink]="['/receta-detalle', receta.recipe_id]" class="text-decoration-none text-dark">
+            <div class="card h-100 shadow-sm">
+              
+              <img *ngIf="receta.recipe?.imagen"
+                   [src]="receta.recipe.imagen"
+                   class="card-img-top"
+                   alt="{{ receta.recipe?.name }}"
+                   style="height: 160px; object-fit: cover;"> <!-- 👈 Imagen un poco más baja -->
 
-  <div *ngIf="recetasTop.length > 0; else sinDatos">
-    <div class="row g-4">
-      <div *ngFor="let receta of recetasTop" class="col-md-6 col-lg-4">
-        <!-- ✅ Enlace completo con routerLink a receta-detalle -->
-        <a [routerLink]="['/receta-detalle', receta.recipe_id]" class="text-decoration-none text-dark">
-          <div class="card h-100 shadow-sm">
-            <img *ngIf="receta.recipe?.imagen"
-                 [src]="receta.recipe.imagen"
-                 class="card-img-top"
-                 alt="{{ receta.recipe?.name }}"
-                 style="height: 200px; object-fit: cover;">
+              <div class="card-body text-center">
+                <h5 class="card-title">{{ receta.recipe?.name || ('Receta #' + receta.recipe_id) }}</h5>
+                <p class="card-text">
+                  ⭐ Promedio: <strong>{{ receta.avg_rating | number:'1.1-2' }}</strong><br />
+                  🧑‍🍳 Valoraciones: {{ receta.total_reviews }}
+                </p>
+              </div>
 
-            <div class="card-body text-center">
-              <h5 class="card-title">{{ receta.recipe?.name || ('Receta #' + receta.recipe_id) }}</h5>
-              <p class="card-text">
-                ⭐ Promedio: <strong>{{ receta.avg_rating | number:'1.1-2' }}</strong><br />
-                🧑‍🍳 Valoraciones: {{ receta.total_reviews }}
-              </p>
             </div>
-          </div>
-        </a>
+          </a>
+        </div>
       </div>
     </div>
-  </div>
 
-  <ng-template #sinDatos>
-    <div class="alert alert-info text-center" role="alert">
-      No hay recetas con valoraciones suficientes.
-    </div>
-  </ng-template>
+    <ng-template #sinDatos>
+      <div class="alert alert-info text-center" role="alert">
+        No hay recetas con valoraciones suficientes.
+      </div>
+    </ng-template>
+  </div>
 </div>

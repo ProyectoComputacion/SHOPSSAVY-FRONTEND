@@ -1,76 +1,80 @@
-<div class="container mt-4">
-  <h2 class="text-center">Tu Carrito</h2>
-
-  <!-- 🔄 Loader general cuando carga la página -->
-  <div *ngIf="loading" class="text-center mt-4">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Cargando...</span>
+<div class="bg-beige min-vh-100 py-4">
+  <div class="container bg-white rounded shadow p-4">
+    <!-- Encabezado -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="mb-0"></h2>
+      <button (click)="clearCart()" 
+              class="btn btn-warning"
+              [disabled]="loadingClear || cartComparison.length === 0">
+        <span *ngIf="!loadingClear">🗑️ Vaciar</span>
+        <span *ngIf="loadingClear" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      </button>
     </div>
-    <p>Cargando recetas...</p>
-  </div>
 
-  <!-- Si no está cargando y el carrito está vacío -->
-  <div *ngIf="!loading && cartComparison.length === 0" class="alert alert-warning text-center">
-    Tu carrito está vacío. ¡Añade algunas recetas! 🍽️
-  </div>
+    <!-- Loader -->
+    <div *ngIf="loading" class="text-center my-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+      <p class="mt-2">Cargando recetas...</p>
+    </div>
 
-  <!-- Listado de recetas en el carrito -->
-  <div class="row" *ngIf="!loading">
-    <div *ngFor="let item of cartComparison" class="col-md-6 mb-4">
-      <div class="card shadow">
-        <img 
-          [src]="item.recipe.imagen || 'assets/default-recipe.jpg'" 
-          class="card-img-top" 
-          alt="{{ item.recipe.name }}"
-          style="height: 200px; object-fit: cover;"
-        >
-        <div class="card-body">
-          <h5 class="card-title">{{ item.recipe.name }}</h5>
-          <p class="card-text"><strong>Categoría:</strong> {{ item.recipe.category }}</p>
-          <p class="card-text"><strong>Tipo:</strong> {{ item.recipe.tipo }}</p>
-          
-          <!-- Tabla de ingredientes -->
-          <h6>🛒 Ingredientes:</h6>
-          <table class="table table-sm">
-            <thead>
-              <tr>
-                <th>Ingrediente</th>
-                <th>Cantidad</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let ing of item.recipe.ingredients">
-                <td>{{ ing.name }}</td>
-                <td>{{ ing.quantity }} {{ ing.unit }}</td>
-              </tr>
-            </tbody>
-          </table>
+    <!-- Carrito vacío -->
+    <div *ngIf="!loading && cartComparison.length === 0" class="alert alert-warning text-center">
+      Tu carrito está vacío. ¡Añade algunas recetas! 🍽️
+    </div>
 
-          <!-- Precios en supermercados -->
-          <h6>💰 Comparación de Precios:</h6>
-          <ul class="list-group">
-            <li *ngFor="let price of item.prices" class="list-group-item d-flex justify-content-between align-items-center">
-              {{ price.supermarket.name }} 
-              <span class="badge bg-success">€{{ price.price }}</span>
-            </li>
-          </ul>
+    <!-- Lista de recetas -->
+    <div class="row g-4" *ngIf="!loading && cartComparison.length > 0">
+      <div *ngFor="let item of cartComparison" class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm d-flex flex-column overflow-hidden">
 
-          <!-- Botón para eliminar la receta con spinner -->
-          <button (click)="removeItem(item.id)" class="btn btn-danger w-100 mt-3" [disabled]="loadingDelete[item.id]">
-            <span *ngIf="loadingDelete[item.id]" class="spinner-border spinner-border-sm"></span>
-            <span *ngIf="!loadingDelete[item.id]">Eliminar</span>
-          </button>
+          <!-- ✅ Imagen normal -->
+          <img 
+            [src]="item.recipe.imagen || 'assets/default-recipe.jpg'" 
+            class="card-img-top"
+            alt="{{ item.recipe.name }}"
+            style="height: 180px; object-fit: cover;"
+          >
+
+          <!-- ✅ Contenido -->
+          <div class="card-body d-flex flex-column justify-content-between">
+            <h5 class="text-center">{{ item.recipe.name }}</h5>
+
+            <div>
+              <!-- Ingredientes -->
+              <h6 class="text-muted small mt-2">🛒 Ingredientes:</h6>
+              <table class="table table-sm mb-2">
+                <tbody>
+                  <tr *ngFor="let ing of item.recipe.ingredients">
+                    <td>{{ ing.name }}</td>
+                    <td>{{ ing.quantity }} {{ ing.unit }}</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <!-- Precios -->
+              <h6 class="text-muted small">💰 Precios:</h6>
+              <ul class="list-group list-group-flush mb-2">
+                <li *ngFor="let price of item.prices" class="list-group-item d-flex justify-content-between align-items-center px-1 py-1">
+                  <small>{{ price.supermarket.name }}</small>
+                  <span class="badge bg-success">€{{ price.price }}</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Botón eliminar -->
+            <button (click)="removeItem(item.id)"
+                    class="btn btn-danger btn-sm mt-2"
+                    [disabled]="loadingDelete[item.id]">
+              <span *ngIf="loadingDelete[item.id]" class="spinner-border spinner-border-sm"></span>
+              <span *ngIf="!loadingDelete[item.id]">Eliminar</span>
+            </button>
+          </div>
+
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Botón para vaciar el carrito -->
-  <div class="text-center mt-4" *ngIf="!loading">
-    <button (click)="clearCart()" class="btn btn-warning" [disabled]="cartComparison.length === 0 || loadingClear">
-      <span *ngIf="!loadingClear">🗑️ Vaciar Carrito</span>
-      <span *ngIf="loadingClear" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-    </button>
   </div>
-  
 </div>
