@@ -1,28 +1,92 @@
-<div class="container">
-  <h2 class="titulo">Mis Recetas Favoritas</h2>
+<!-- Fondo beige igual que Home -->
+<div class="min-vh-100 py-4 bg-beige">
+  <div class="container shadow rounded p-4 bg-white">
 
-  <!-- Filtro por Categoría -->
-  <div class="filtro-container">
-    <label for="categoria">Filtrar por categoría:</label>
-    <select id="categoria" class="filtro" [(ngModel)]="filtroCategoria" (change)="filtrarFavoritos()">
-      <option value="">Todas las categorías</option>
-      <option *ngFor="let categoria of categorias" [value]="categoria">
-        {{ categoria }}
-      </option>
-    </select>
-  </div>
-
-  <!-- Lista de Favoritos -->
-  <div class="recetas-grid">
-    <div class="receta-card" *ngFor="let favorito of favoritos" (click)="verDetalles(favorito.recipe.id)">
-      <div class="receta-img-container" *ngIf="favorito.recipe.imagen">
-        <img [src]="favorito.recipe.imagen" alt="{{ favorito.recipe.name }}" class="receta-img">
+    <!-- FILTROS: botón hamburguesa para categorías -->
+    <div class="filtros">
+      <div
+        class="hamburger-btn"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasCategoriasFavoritos"
+        aria-controls="offcanvasCategoriasFavoritos"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
       </div>
-      <div class="receta-info">
-        <h3 class="receta-titulo">{{ favorito.recipe.name }}</h3>
-        <p class="receta-categoria">Categoría: {{ favorito.category }}</p>
-        <button class="eliminar-btn" (click)="eliminarFavorito(favorito.id); $event.stopPropagation()">Eliminar</button>
+      <!-- por ahora placeholder -->
+      <div class="type-filter"></div>
+    </div>
+
+    <!-- Offcanvas Categorías -->
+    <div
+      class="offcanvas offcanvas-start"
+      tabindex="-1"
+      id="offcanvasCategoriasFavoritos"
+      aria-labelledby="offcanvasCategoriasFavoritosLabel"
+    >
+      <div class="offcanvas-header">
+        <h5 id="offcanvasCategoriasFavoritosLabel">Categorías</h5>
+        <button
+          type="button"
+          class="btn-close text-reset"
+          data-bs-dismiss="offcanvas"
+          aria-label="Cerrar"
+        ></button>
+      </div>
+      <div class="offcanvas-body p-0">
+        <ul class="list-group list-group-flush">
+          <li
+            class="list-group-item"
+            *ngFor="let categoria of categorias"
+            (click)="filtrarFavoritos(categoria)"
+            [class.active]="categoria === filtroCategoria"
+          >
+            {{ categoria }}
+          </li>
+          <li
+            class="list-group-item text-muted"
+            (click)="filtrarFavoritos('')"
+          >
+            Mostrar todos
+          </li>
+        </ul>
       </div>
     </div>
+
+    <!-- LISTA DE FAVORITOS -->
+    <div class="recetas-grid">
+      <div
+        class="receta-card"
+        *ngFor="let favorito of favoritos"
+        (click)="verDetalles(favorito.recipe.id)"
+      >
+        <div
+          class="receta-img-container"
+          *ngIf="favorito.recipe.imagen"
+        >
+          <img
+            [src]="favorito.recipe.imagen"
+            alt="{{ favorito.recipe.name }}"
+            class="receta-img"
+          />
+        </div>
+        <div class="receta-info">
+          <h3 class="receta-titulo">
+            {{ favorito.recipe.name }}
+          </h3>
+          <p class="receta-categoria">
+            Categoría: {{ favorito.category }}
+          </p>
+          <button
+            class="eliminar-btn"
+            (click)="eliminarFavorito(favorito.id); $event.stopPropagation()"
+          >
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>

@@ -1,61 +1,89 @@
+/* Fondo beige igual que Home */
+.bg-beige {
+  background-color: #faf1e6;
+}
+
 /* Contenedor principal */
 .container {
   width: 90%;
-  margin: 20px auto;
+  margin: 0 auto;
   font-family: 'Inter', sans-serif;
 }
 
-/* Título principal */
-.titulo {
-  font-size: 48px;
-  font-weight: 700;
-  margin-bottom: 1rem;
-}
-
-/* Contenedor del filtro */
-.filtro-container {
+/* --- FILTROS --- */
+.filtros {
   display: flex;
   align-items: center;
+  gap: 1rem;
   margin-bottom: 1.5rem;
-  
-  label {
-    margin-right: 1rem;
-    font-size: 18px;
-    font-weight: 600;
+}
+
+.hamburger-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 22px;
+  cursor: pointer;
+
+  span {
+    display: block;
+    height: 4px;
+    background-color: #333;
+    border-radius: 2px;
   }
 }
 
-/* Estilo para el select del filtro */
-.filtro {
-  width: 250px;
-  padding: 10px;
-  font-size: 18px;
-  border-radius: 11px;
-  border: 1px solid #ccc;
+.type-filter {
+  flex: 1;
 }
 
-/* Grid para mostrar las tarjetas de favoritos */
-.recetas-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+/* --- Offcanvas Categorías --- */
+.offcanvas-body {
+  background: #f8f9fa;
 }
 
-/* Tarjeta individual */
-.receta-card {
-  background: #fff;
-  border-radius: 11px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+.list-group-item {
+  border: none;
+  padding: 1rem 1.5rem;
   cursor: pointer;
 }
 
-/* Contenedor para la imagen */
+.list-group-item.active {
+  background-color: #e9ecef;
+  font-weight: bold;
+}
+
+.list-group-item.text-muted {
+  text-align: center;
+}
+
+/* --- GRID DE FAVORITOS: 4 columnas --- */
+.recetas-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* --- Tarjeta de favorito --- */
+.receta-card {
+  background: #fff;
+  border-radius: 11px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  }
+}
+
 .receta-img-container {
+  position: relative;
   width: 100%;
-  height: 200px;
+  height: 180px;
   overflow: hidden;
 }
 
@@ -65,7 +93,6 @@
   object-fit: cover;
 }
 
-/* Información de la receta */
 .receta-info {
   padding: 15px;
   display: flex;
@@ -74,32 +101,30 @@
 }
 
 .receta-titulo {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
   margin: 0;
 }
 
 .receta-categoria {
-  font-size: 20px;
-  font-weight: 700;
-  color: #B1B1B1;
+  font-size: 16px;
+  color: #555;
 }
 
-/* Botón para eliminar favorito */
+/* Botón Eliminar */
 .eliminar-btn {
   background: #ff4d4d;
   border: none;
-  padding: 10px;
-  font-size: 18px;
+  padding: 8px 12px;
+  font-size: 16px;
   font-weight: 700;
   border-radius: 11px;
   cursor: pointer;
   color: #fff;
-  transition: background-color 0.3s;
   align-self: flex-end;
-  margin-top: 10px;
-}
+  transition: background-color 0.3s;
 
-.eliminar-btn:hover {
-  background: #e60000;
+  &:hover {
+    background: #e60000;
+  }
 }

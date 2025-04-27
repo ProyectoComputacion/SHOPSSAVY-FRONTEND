@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HttpHeaders } from '@angular/common/http';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
+
+declare const bootstrap: any;
 
 interface Favorite {
   id: number;
@@ -25,9 +26,9 @@ interface Favorite {
   styleUrls: ['./favoritos.component.scss']
 })
 export class FavoritosComponent implements OnInit {
-  categorias: string[] = ["Para cenas rápidas", "Recetas saludables", "Especial para invitados"];
+  categorias = ['Para cenas rápidas', 'Recetas saludables', 'Especial para invitados'];
   favoritos: Favorite[] = [];
-  filtroCategoria: string = '';
+  filtroCategoria = '';
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -36,39 +37,35 @@ export class FavoritosComponent implements OnInit {
   }
 
   cargarFavoritos() {
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('token')}`);
-    this.http.get<Favorite[]>('/api/favorites', { headers }).subscribe(
-      (data) => {
-        console.log('Favoritos recibidos:', data);
-        this.favoritos = data;
-      },
-      (error) => {
-        console.error('Error obteniendo favoritos:', error);
-      }
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${localStorage.getItem('token')}`
     );
+    this.http
+      .get<Favorite[]>('/api/favorites', { headers })
+      .subscribe(data => (this.favoritos = data));
   }
 
-  filtrarFavoritos() {
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('token')}`);
-    this.http.get<Favorite[]>(`/api/favorites?category=${this.filtroCategoria}`, { headers }).subscribe(
-      (data) => {
-        console.log('Favoritos filtrados:', data);
-        this.favoritos = data;
-      },
-      (error) => {
-        console.error('Error filtrando favoritos:', error);
-      }
+  filtrarFavoritos(categoria: string) {
+    this.filtroCategoria = categoria;
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${localStorage.getItem('token')}`
     );
+    const params = categoria ? `?category=${categoria}` : '';
+    this.http
+      .get<Favorite[]>(`/api/favorites${params}`, { headers })
+      .subscribe(data => (this.favoritos = data));
   }
 
   eliminarFavorito(favoritoId: number) {
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('token')}`);
-    this.http.delete(`/api/favorites/${favoritoId}`, { headers }).subscribe(
-      () => {
-        this.favoritos = this.favoritos.filter(fav => fav.id !== favoritoId);
-      },
-      (error) => console.error('Error eliminando favorito:', error)
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${localStorage.getItem('token')}`
     );
+    this.http.delete(`/api/favorites/${favoritoId}`, { headers }).subscribe(() => {
+      this.favoritos = this.favoritos.filter(f => f.id !== favoritoId);
+    });
   }
 
   verDetalles(recipeId: number): void {

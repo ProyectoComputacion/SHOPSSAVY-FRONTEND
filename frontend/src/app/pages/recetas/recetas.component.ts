@@ -1,12 +1,12 @@
+// src/app/pages/recetas/recetas.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-
 import { RecetaService, Recipe } from '../../services/receta.service';
 
-declare var bootstrap: any; // Para manejar el modal de Bootstrap
+declare const bootstrap: any;
 
 @Component({
   selector: 'app-recetas',
@@ -19,12 +19,11 @@ export class RecetasComponent implements OnInit {
   recetasFiltradas: Recipe[] = [];
   categorias: string[] = [];
   tipos: string[] = [];
-  filtroCategoria: string = '';
-  filtroTipo: string = '';
+  filtroCategoria = '';
+  filtroTipo = '';
 
-  // Para controlar el modal de favoritos
+  private modalCategoriaFavorito!: any;
   recetaSeleccionada!: Recipe;
-  private modalCategoriaFavorito: any;
 
   constructor(
     private recetaService: RecetaService,
@@ -45,86 +44,69 @@ export class RecetasComponent implements OnInit {
         : this.filtroTipo === 'Michelin'
         ? 'Recetas Michelin'
         : '';
-
-    this.recetaService.getRecetas(this.filtroCategoria, tipoCorrecto).subscribe(
-      (data: Recipe[]) => {
-        this.recetasFiltradas = data;
-      },
-      (error: any) => {
-        console.error('Error obteniendo recetas:', error);
-      }
-    );
+    this.recetaService
+      .getRecetas(this.filtroCategoria, tipoCorrecto)
+      .subscribe(data => (this.recetasFiltradas = data));
   }
 
   obtenerCategorias(): void {
-    this.recetaService.getCategorias().subscribe(
-      (data: string[]) => {
-        this.categorias = data;
-      },
-      (error: any) => {
-        console.error('Error obteniendo categorías:', error);
-      }
-    );
+    this.recetaService
+      .getCategorias()
+      .subscribe(data => (this.categorias = data));
   }
 
   obtenerTipos(): void {
-    this.recetaService.getTipos().subscribe(
-      (data: string[]) => {
-        this.tipos = data;
-      },
-      (error: any) => {
-        console.error('Error obteniendo tipos de recetas:', error);
-      }
-    );
+    this.recetaService
+      .getTipos()
+      .subscribe(data => (this.tipos = data));
   }
 
   filtrarRecetas(): void {
     this.obtenerRecetas();
   }
 
+  setCategoria(categoria: string): void {
+    this.filtroCategoria = categoria;
+    this.filtrarRecetas();
+    const offEl = document.getElementById('offcanvasCategoriasRecetas')!;
+    bootstrap.Offcanvas.getInstance(offEl)?.hide();
+  }
+
   verDetalles(id: number): void {
-    console.log("Redirigiendo a receta con ID:", id);
     this.router.navigate(['/receta-detalle', id]);
   }
 
-  /**
-   * Abre el modal con las imágenes para elegir la categoría.
-   */
   abrirModalCategoria(receta: Recipe): void {
     this.recetaSeleccionada = receta;
-    const modalElement = document.getElementById('modalCategoriaFavorito');
-    if (modalElement) {
-      this.modalCategoriaFavorito = new bootstrap.Modal(modalElement);
-      this.modalCategoriaFavorito.show();
-    }
+    // aquí el non-null assertion (!) le dice a TS que nunca será null
+    const modalEl = document.getElementById('modalCategoriaFavorito')!; 
+    this.modalCategoriaFavorito = new bootstrap.Modal(modalEl);
+
+    // Listener para limpiar backdrop / scroll cuando Bootstrap termine de ocultar
+    modalEl.addEventListener('hidden.bs.modal', () => {
+      document.body.style.overflow = '';
+      document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+    });
+
+    this.modalCategoriaFavorito.show();
   }
 
-  /**
-   * Al hacer clic en una de las imágenes, se crea el favorito con esa categoría.
-   * El modal se cierra inmediatamente al seleccionar la categoría.
-   */
   seleccionarCategoria(category: string): void {
-    console.log('Categoría seleccionada:', category);
-    // Cierra el modal inmediatamente
-    if (this.modalCategoriaFavorito) {
-      this.modalCategoriaFavorito.hide();
-    }
     const headers = new HttpHeaders().set(
       'Authorization',
       `Bearer ${localStorage.getItem('token')}`
     );
-
     const body = {
       recipe_id: this.recetaSeleccionada.id,
-      category: category
+      category
     };
 
-    // Ajusta la URL /api/favorites según tu API
     this.http.post('/api/favorites', body, { headers }).subscribe(
-      (res) => {
-        console.log('Favorito creado:', res);
+      () => {
+        // sólo oculta, el listener se encarga del cleanup
+        this.modalCategoriaFavorito.hide();
       },
-      (err) => {
+      err => {
         console.error('Error añadiendo favorito:', err);
       }
     );

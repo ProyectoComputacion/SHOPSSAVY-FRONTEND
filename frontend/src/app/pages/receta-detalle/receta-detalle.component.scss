@@ -1,95 +1,131 @@
-/* Contenedor principal */
-.container-detalle {
-    width: 90%;
-    margin: 20px auto;
-    font-family: 'Inter', sans-serif;
-  }
-  
-  /* Título principal */
-  .titulo {
-    font-size: 36px;
-    font-weight: 700;
-    margin-bottom: 20px;
-  }
-  
-  /* Encabezado con imagen de la receta */
-  .receta-header {
-    position: relative;
-    width: 100%;
-    height: 350px; /* Ajusta la altura que desees */
-    overflow: hidden;
-    border-radius: 10px;
-    margin-bottom: 20px;
-  }
-  
+/* Fondo beige */
+.bg-beige {
+  background-color: #faf1e6;
+}
+
+/* Contenedor */
+.container {
+  width: 90%;
+  margin: 0 auto;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Header imagen con overlay gradiente */
+.receta-header {
+  position: relative;
+  width: 100%;
+  height: 350px;
+  overflow: hidden;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+
   .receta-img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Asegura que la imagen ocupe todo el contenedor sin distorsión */
+    object-fit: cover;
+    filter: brightness(0.9);
+    transition: transform 0.5s;
   }
-  
+  &:hover .receta-img {
+    transform: scale(1.02);
+  }
+
   .receta-overlay {
     position: absolute;
-    bottom: 20px;
-    left: 20px;
-    color: white;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.7),
+      rgba(0, 0, 0, 0)
+    );
+    color: #fff;
+
+    .receta-name {
+      font-size: 2.5rem;
+      margin: 0;
+    }
+    .receta-tipo {
+      font-size: 1.25rem;
+      margin-top: 0.5rem;
+      font-weight: 500;
+    }
   }
-  
-  .receta-name {
-    font-size: 48px;
-    font-weight: 700;
-    margin: 0;
-  }
-  
-  .receta-tipo {
-    font-size: 24px;
+}
+
+/* Ingredientes */
+.receta-info {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+
+  h4 {
+    margin-bottom: 1rem;
     font-weight: 600;
-    margin: 5px 0 0;
   }
-  
-  /* Sección de ingredientes (fondo blanco) */
-  .receta-info {
-    background: #FFF;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 20px;
+  ul {
+    list-style: disc inside;
+    li {
+      margin-bottom: 0.5rem;
+      strong {
+        color: #333;
+      }
+    }
   }
-  
-  /* Contenedor de botones (Volver y Añadir Carrito) */
-  .receta-acciones {
-    display: flex;
-    justify-content: flex-end;
-    gap: 20px;
+  .text-muted {
+    color: #777;
+    font-style: italic;
   }
-  
-  /* Botones */
+}
+
+/* Botones de acción */
+.receta-acciones {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+
+  button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
   .btn-volver {
     background: #ccc;
     color: #000;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 11px;
-    font-size: 16px;
-    cursor: pointer;
+    &:hover {
+      background: #bbb;
+    }
   }
-  
-  .btn-carrito {
-    background: #FFE76E; /* color amarillo */
+  .btn-calificar {
+    background: #ffd54f;
     color: #000;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 11px;
-    font-size: 16px;
-    cursor: pointer;
+    &:hover {
+      background: #ffca28;
+    }
   }
-  
-  /* Opcional: hover en botones */
-  .btn-volver:hover {
-    background: #bbb;
+  .btn-carrito {
+    background: #ffeb3b;
+    color: #000;
+    &:hover {
+      background: #fdd835;
+    }
   }
-  
-  .btn-carrito:hover {
-    background: #ffd947;
-  }
-  
+}
+
+/* Estrellas en el modal */
+.estrellas {
+  font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
