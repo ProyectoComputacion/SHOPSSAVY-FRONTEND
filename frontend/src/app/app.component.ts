@@ -9,15 +9,14 @@ declare var bootstrap: any;
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterOutlet, RouterModule], // Importamos RouterModule
+  imports: [FormsModule, CommonModule, RouterOutlet, RouterModule],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
   isLoggedIn: boolean = false;
   userRole: string | null = null;
-  activeRoute: string = '';
-  logoutMenuOpen: boolean = false; // 🔹 Controla la visibilidad del submenú
+  logoutMenuOpen: boolean = false;
 
   menuItems = [
     { label: 'Inicio', link: '/home' },
@@ -26,8 +25,7 @@ export class AppComponent implements OnInit {
     { label: 'Calificados', link: '/clasificados', protected: true },
     { label: 'Favoritos', link: '/favoritos', protected: true },
     { label: 'Presupuesto', link: '/presupuesto' },
-    { label: 'Crea Tu Receta', link: '/crear-receta', role: 'chef' },
-
+    { label: 'Crea Tu Receta', link: '/crear-receta', role: 'chef' }
   ];
 
   private authService = inject(AuthService);
@@ -37,31 +35,13 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.isLoggedIn = this.authService.isAuthenticated();
     this.userRole = sessionStorage.getItem('userRole');
-    this.activeRoute = this.router.url;
     console.log("📌 Rol cargado al iniciar:", this.userRole);
-  
-    // 🔥 Escuchar cambios de navegación para actualizar el active
-    this.router.events.subscribe((event: any) => {
-      if (event?.url) {
-        this.activeRoute = event.url;
-      }
-    });
-  
-    // 🔥 Filtra los menús según rol
+
+    // 🔥 Filtrar menús según rol
     this.menuItems = this.menuItems.filter(item => {
       if (!item.role) return true;
       return item.role === this.userRole?.trim().toLowerCase();
     });
-  }
-  
-  
-
-  setActive(route: string) {
-    this.activeRoute = route;
-  }
-
-  isActive(route: string): boolean {
-    return this.activeRoute === route || this.router.url === route;
   }
 
   logout() {
@@ -76,10 +56,9 @@ export class AppComponent implements OnInit {
     return this.router.url === '/login' || this.router.url === '/register';
   }
 
-  // 🔹 Función para abrir/cerrar el submenú de "Cerrar sesión"
   toggleLogoutMenu(event: Event) {
-    event.preventDefault(); // Evita que el enlace se active
-    this.logoutMenuOpen = !this.logoutMenuOpen; // 🔄 Alternar el submenú
+    event.preventDefault();
+    this.logoutMenuOpen = !this.logoutMenuOpen;
   }
 
   redirigirLogin(): void {
@@ -90,7 +69,7 @@ export class AppComponent implements OnInit {
     }
     this.router.navigate(['/login']);
   }
-  
+
   redirigirRegistro(): void {
     const modalElement = document.getElementById('authRequiredModal');
     if (modalElement) {
@@ -99,7 +78,6 @@ export class AppComponent implements OnInit {
     }
     this.router.navigate(['/register']);
   }
-  
   mostrarModalAuth(): void {
     const modalElement = document.getElementById('authRequiredModal');
     if (modalElement) {
@@ -107,27 +85,5 @@ export class AppComponent implements OnInit {
       modal.show();
     }
   }
-  
-  handleMenuClick(item: any, event: Event): void {
-    event.preventDefault();
-  
-    if (item.link === '/logout') {
-      this.logout();
-      return;
-    }
-  
-    const isProtected = item.protected;
-    const isLoggedIn = !!sessionStorage.getItem('user_id');
-  
-    if (isProtected && !isLoggedIn) {
-      this.mostrarModalAuth();
-      return;
-    }
-  
-    this.activeRoute = item.link; // 🔥 ✅ MARCAR ACTIVAMENTE
-    this.router.navigate([item.link]);
-  }
-  
-  
   
 }
