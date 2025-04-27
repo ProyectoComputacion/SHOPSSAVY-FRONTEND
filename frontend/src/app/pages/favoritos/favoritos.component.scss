@@ -1,4 +1,4 @@
-/* Fondo beige igual que Home */
+/* Fondo beige */
 .bg-beige {
   background-color: #faf1e6;
 }
@@ -6,6 +6,7 @@
 /* Contenedor principal */
 .container {
   width: 90%;
+  max-width: 1200px;
   margin: 0 auto;
   font-family: 'Inter', sans-serif;
 }
@@ -16,9 +17,16 @@
   align-items: center;
   gap: 1rem;
   margin-bottom: 1.5rem;
+
+  @media (max-width: 576px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
 
+/* Botón hamburguesa */
 .hamburger-btn {
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -34,11 +42,12 @@
   }
 }
 
+/* Placeholder filtro tipo */
 .type-filter {
   flex: 1;
 }
 
-/* --- Offcanvas Categorías --- */
+/* --- Offcanvas --- */
 .offcanvas-body {
   background: #f8f9fa;
 }
@@ -58,30 +67,40 @@
   text-align: center;
 }
 
-/* --- GRID DE FAVORITOS: 4 columnas --- */
+/* --- GRID de Favoritos --- */
 .recetas-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
+  margin-top: 1rem;
 }
 
-/* --- Tarjeta de favorito --- */
+/* Ajustes puntuales */
+@media (max-width: 576px) {
+  .recetas-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- Tarjeta individual --- */
 .receta-card {
   background: #fff;
   border-radius: 11px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
   transition: transform 0.3s, box-shadow 0.3s;
 
   &:hover {
-    transform: scale(1.02);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
   }
 }
 
+/* Imagen */
 .receta-img-container {
-  position: relative;
   width: 100%;
   height: 180px;
   overflow: hidden;
@@ -93,36 +112,39 @@
   object-fit: cover;
 }
 
+/* Info */
 .receta-info {
-  padding: 15px;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  flex: 1;
 }
 
 .receta-titulo {
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: 700;
   margin: 0;
 }
 
 .receta-categoria {
-  font-size: 16px;
-  color: #555;
+  font-size: 1rem;
+  color: #777;
+  margin: 0;
+  flex-grow: 1;
 }
 
-/* Botón Eliminar */
+/* Botón eliminar */
 .eliminar-btn {
-  background: #ff4d4d;
-  border: none;
-  padding: 8px 12px;
-  font-size: 16px;
-  font-weight: 700;
-  border-radius: 11px;
-  cursor: pointer;
-  color: #fff;
   align-self: flex-end;
-  transition: background-color 0.3s;
+  background: #ff4d4d;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
 
   &:hover {
     background: #e60000;

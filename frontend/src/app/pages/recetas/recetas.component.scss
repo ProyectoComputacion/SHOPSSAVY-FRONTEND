@@ -6,6 +6,7 @@
 /* Contenedor principal */
 .container {
   width: 90%;
+  max-width: 1200px;
   margin: 0 auto;
   font-family: 'Inter', sans-serif;
 }
@@ -16,10 +17,17 @@
   align-items: center;
   gap: 1rem;
   margin-bottom: 1.5rem;
+  
+  /* En pantallas muy pequeñas, apilar verticalmente */
+  @media (max-width: 576px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
 
 /* Botón hamburguesa */
 .hamburger-btn {
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -45,6 +53,7 @@
   background: #f8f9fa;
 }
 
+/* Lista dentro del offcanvas */
 .list-group-item {
   border: none;
   padding: 1rem 1.5rem;
@@ -60,11 +69,32 @@
   text-align: center;
 }
 
-/* --- GRID DE RECETAS: 4 columnas --- */
+/* --- GRID DE RECETAS: auto-fit para responsive --- */
 .recetas-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
+}
+
+/* Ajustes para muy pequeñas */
+@media (max-width: 576px) {
+  .recetas-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Ajustes tablets */
+@media (min-width: 577px) and (max-width: 768px) {
+  .recetas-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Ajustes escritorios medianos */
+@media (min-width: 769px) and (max-width: 992px) {
+  .recetas-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 /* --- Tarjeta de receta --- */
@@ -79,6 +109,14 @@
   &:hover {
     transform: scale(1.03);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+  }
+
+  /* En móviles reduce padding de info */
+  @media (max-width: 576px) {
+    .receta-info {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
   }
 }
 
@@ -97,9 +135,13 @@
   bottom: 10px;
   left: 10px;
   color: white;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
+  @media (max-width: 576px) {
+    font-size: 18px;
+  }
 }
 
 /* Sección inferior de la tarjeta */
@@ -111,25 +153,26 @@
   padding: 15px;
 }
 
-/* Texto “Normal €€” más oscuro */
 .receta-categoria {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   color: #555555;
+
+  @media (max-width: 576px) {
+    font-size: 16px;
+  }
 }
 
 .michelin {
   color: #ffc465;
 }
 
-/* Botones */
 .botones {
   display: flex;
   gap: 10px;
   align-items: center;
 }
 
-/* Estrella (favorito) más oscura */
 .favorito-btn {
   background: transparent;
   border: none;
@@ -143,15 +186,19 @@
   }
 }
 
-/* Botón “Ver detalles” */
 .receta-btn {
   background: #ffe76e;
   border: none;
   padding: 10px 15px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   border-radius: 11px;
   cursor: pointer;
+
+  @media (max-width: 576px) {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
 }
 
 /* --- Modal de categorías --- */
@@ -183,5 +230,6 @@
   h6 {
     margin-top: 0.5rem;
     font-weight: 600;
+    font-size: 14px;
   }
 }

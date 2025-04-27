@@ -1,9 +1,10 @@
-<!-- Fondo beige igual que Home -->
+<!-- Fondo beige como en Home/Recetas -->
 <div class="min-vh-100 py-4 bg-beige">
   <div class="container shadow rounded p-4 bg-white">
 
-    <!-- FILTROS: botón hamburguesa para categorías -->
+    <!-- FILTROS -->
     <div class="filtros">
+      <!-- Botón hamburguesa para categorías -->
       <div
         class="hamburger-btn"
         data-bs-toggle="offcanvas"
@@ -14,7 +15,7 @@
         <span></span>
         <span></span>
       </div>
-      <!-- por ahora placeholder -->
+      <!-- Placeholder (o futuro filtro por tipo) -->
       <div class="type-filter"></div>
     </div>
 
@@ -48,23 +49,20 @@
             class="list-group-item text-muted"
             (click)="filtrarFavoritos('')"
           >
-            Mostrar todos
+            Ver todas
           </li>
         </ul>
       </div>
     </div>
 
-    <!-- LISTA DE FAVORITOS -->
+    <!-- GRID de Favoritos -->
     <div class="recetas-grid">
       <div
         class="receta-card"
         *ngFor="let favorito of favoritos"
         (click)="verDetalles(favorito.recipe.id)"
       >
-        <div
-          class="receta-img-container"
-          *ngIf="favorito.recipe.imagen"
-        >
+        <div class="receta-img-container" *ngIf="favorito.recipe.imagen">
           <img
             [src]="favorito.recipe.imagen"
             alt="{{ favorito.recipe.name }}"
@@ -72,12 +70,8 @@
           />
         </div>
         <div class="receta-info">
-          <h3 class="receta-titulo">
-            {{ favorito.recipe.name }}
-          </h3>
-          <p class="receta-categoria">
-            Categoría: {{ favorito.category }}
-          </p>
+          <h3 class="receta-titulo">{{ favorito.recipe.name }}</h3>
+          <p class="receta-categoria">Categoría: {{ favorito.category }}</p>
           <button
             class="eliminar-btn"
             (click)="eliminarFavorito(favorito.id); $event.stopPropagation()"
