@@ -34,7 +34,7 @@ export const routes: Routes = [
   { path: 'menu-generator', component: MenuGeneratorComponent },
 
   // Rutas restringidas
-  { path: 'crear-receta', component: CrearRecetaComponent, canActivate: [AuthGuard, ChefGuard] },
+  { path: 'crear-receta', component: CrearRecetaComponent, canActivate: [AuthGuard] },
   { path: 'chat-global', component: ChatGlobalComponent, canActivate: [AuthGuard] },
 
   // Ruta por defecto

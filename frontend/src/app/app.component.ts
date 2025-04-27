@@ -27,12 +27,7 @@ export class AppComponent implements OnInit {
     { label: 'Favoritos', link: '/favoritos', protected: true },
     { label: 'Presupuesto', link: '/presupuesto' },
     { label: 'Crea Tu Receta', link: '/crear-receta', role: 'chef' },
-    { label: '', link: '' },
-    { label: '', link: '' },
-    { label: '', link: '' },
-    { label: '', link: '' },
-    { label: '', link: '' },
-    { label: 'Cerrar sesión', link: '/logout' }
+
   ];
 
   private authService = inject(AuthService);
@@ -45,12 +40,20 @@ export class AppComponent implements OnInit {
     this.activeRoute = this.router.url;
     console.log("📌 Rol cargado al iniciar:", this.userRole);
   
-    // Filtra los elementos según el rol
+    // 🔥 Escuchar cambios de navegación para actualizar el active
+    this.router.events.subscribe((event: any) => {
+      if (event?.url) {
+        this.activeRoute = event.url;
+      }
+    });
+  
+    // 🔥 Filtra los menús según rol
     this.menuItems = this.menuItems.filter(item => {
       if (!item.role) return true;
       return item.role === this.userRole?.trim().toLowerCase();
     });
   }
+  
   
 
   setActive(route: string) {
@@ -121,7 +124,10 @@ export class AppComponent implements OnInit {
       return;
     }
   
+    this.activeRoute = item.link; // 🔥 ✅ MARCAR ACTIVAMENTE
     this.router.navigate([item.link]);
   }
+  
+  
   
 }

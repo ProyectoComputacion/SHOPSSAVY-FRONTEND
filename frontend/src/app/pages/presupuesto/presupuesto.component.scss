@@ -1,90 +1,110 @@
 /* Fondo general */
 .bg-beige {
-  background-color: #faf1e6 !important; /* ✅ Fondo beige */
+  background-color: #faf1e6 !important;
 }
 
-/* Contenedor principal */
-.container {
-  width: 90%;
-  margin: 20px auto;
-  font-family: 'Inter', sans-serif;
-  background-color: transparent !important; /* ✅ Fondo heredado */
+/* Contenedor principal ahora gris claro */
+.bg-light-gray {
+  background-color: #f5f5f5 !important;
+  border-radius: 15px;
+  padding: 20px;
 }
 
-/* Título principal */
-.titulo {
-  font-size: 2.2rem;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-/* Estilos para la card */
+/* Card */
 .card {
-  border: none;
+  background-color: #ffffff;
   border-radius: 15px;
 }
 
-/* Ajustes para la fila */
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-/* Input de presupuesto */
-.form-control {
-  border-radius: 10px;
-  padding: 0.75rem;
-  font-size: 1rem;
-}
-
 /* Botón Buscar */
-.btn {
+.btn-buscar {
+  background-color: #FFE76E !important;
+  color: #333 !important;
+  font-weight: 600;
+  border: none;
   border-radius: 10px;
   font-size: 1.1rem;
+  transition: background-color 0.3s ease;
 }
 
-/* Título de Resultados */
-.resultados-titulo {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 1rem;
+.btn-buscar:hover {
+  background-color: #ffd93b !important;
+  color: #000 !important;
 }
 
-/* Estilos para la tabla */
-.table {
-  width: 100%;
-  margin-top: 1rem;
-  border-collapse: collapse;
-  font-size: 0.95rem;
+/* Slider */
+.slider-presupuesto {
+  width: 70%;
+  margin: auto;
+  display: block;
+  height: 0.5rem;
+  background: #ffe76e;
+  border-radius: 8px;
+  appearance: none;
 }
 
-.table th,
-.table td {
-  padding: 0.75rem;
-  text-align: left;
-}
-
-.table-striped tbody tr:nth-of-type(odd) {
-  background-color: #f9f9f9;
-}
-
-.table-bordered {
-  border: 1px solid #dee2e6;
-}
-
-.table-dark th {
-  background-color: #343a40;
-  color: #fff;
-}
-
-/* Estilo para hacer clicables las filas */
-.clickable {
+.slider-presupuesto::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #ffe76e;
+  border-radius: 50%;
   cursor: pointer;
-  transition: background-color 0.3s;
+  margin-top: -8px;
 }
 
-.clickable:hover {
-  background-color: #f1f1f1;
+.slider-presupuesto::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: #ffe76e;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.slider-presupuesto:hover::-webkit-slider-thumb {
+  background-color: #ffd93b;
+}
+
+.slider-presupuesto:hover::-moz-range-thumb {
+  background-color: #ffd93b;
+}
+
+/* Cards resultados */
+.resultado-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  text-align: center;
+  padding: 0.8rem 0.5rem;
+}
+
+.resultado-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.resultado-card .card-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.resultado-card p {
+  font-size: 0.8rem;
+  color: #555;
+  margin: 0.2rem 0;
+}
+
+/* ✅ Imagen de resultado */
+.resultado-imagen {
+  height: 80px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 10px;
 }

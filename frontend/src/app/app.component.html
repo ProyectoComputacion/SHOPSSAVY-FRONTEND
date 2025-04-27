@@ -15,17 +15,17 @@
       <!-- 🧭 Menú izquierdo -->
       <ul class="navbar-nav">
         <ng-container *ngFor="let item of menuItems">
-          <li class="nav-item"
-              *ngIf="item.link !== '/logout' && (!item.role || item.role === userRole?.trim())"
-              [ngClass]="{'active': isActive(item.link)}">
-              <a class="nav-link"
-              href="#"
-              (click)="handleMenuClick(item, $event)">
+          <li class="nav-item">
+            <a class="nav-link" 
+               [ngClass]="{'active': isActive(item.link)}"
+               href="#"
+               (click)="handleMenuClick(item, $event)">
               {{ item.label }}
-           </a>
-           
+            </a>
           </li>
+          
         </ng-container>
+        
       </ul>
 
       <!-- 🔐 Menú derecho -->
