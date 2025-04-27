@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
 
   private authService = inject(AuthService);
 
-  constructor(private router: Router) {}
+  constructor(public router: Router) {}
 
   ngOnInit() {
     this.isLoggedIn = this.authService.isAuthenticated();
@@ -84,6 +84,26 @@ export class AppComponent implements OnInit {
       const modal = new bootstrap.Modal(modalElement);
       modal.show();
     }
+  }
+  
+  handleMenuClick(item: any, event: Event): void {
+    event.preventDefault(); // Evitar el comportamiento normal del enlace
+  
+    const isProtected = item.protected;
+    const isLoggedIn = !!sessionStorage.getItem('user_id');
+  
+    if (item.link === '/logout') {
+      this.logout();
+      return;
+    }
+  
+    if (isProtected && !isLoggedIn) {
+      this.mostrarModalAuth(); // 🔥 Mostrar modal si no está logueado
+      return;
+    }
+  
+    // Si está permitido, navegar normalmente
+    this.router.navigate([item.link]);
   }
   
 }
