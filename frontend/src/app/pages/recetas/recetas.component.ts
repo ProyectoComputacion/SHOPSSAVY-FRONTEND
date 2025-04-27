@@ -8,6 +8,13 @@ import { RecetaService, Recipe } from '../../services/receta.service';
 
 declare const bootstrap: any;
 
+interface Favorite {
+  id: number;
+  recipe_id: number;
+  category: string;
+  // otros campos si los hay...
+}
+
 @Component({
   selector: 'app-recetas',
   standalone: true,
@@ -25,6 +32,9 @@ export class RecetasComponent implements OnInit {
   private modalCategoriaFavorito!: any;
   recetaSeleccionada!: Recipe;
 
+  /** Lista de IDs de recetas ya en favoritos */
+  favoriteRecipeIds: number[] = [];
+
   constructor(
     private recetaService: RecetaService,
     private router: Router,
@@ -35,6 +45,23 @@ export class RecetasComponent implements OnInit {
     this.obtenerRecetas();
     this.obtenerCategorias();
     this.obtenerTipos();
+    this.cargarFavoritos();
+  }
+
+  /** Carga los favoritos del usuario para poder comprobar duplicados */
+  cargarFavoritos(): void {
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${localStorage.getItem('token')}`
+    );
+    this.http
+      .get<Favorite[]>('/api/favorites', { headers })
+      .subscribe(
+        data => {
+          this.favoriteRecipeIds = data.map(f => f.recipe_id);
+        },
+        err => console.error('Error cargando favoritos:', err)
+      );
   }
 
   obtenerRecetas(): void {
@@ -78,20 +105,24 @@ export class RecetasComponent implements OnInit {
 
   abrirModalCategoria(receta: Recipe): void {
     this.recetaSeleccionada = receta;
-    // aquí el non-null assertion (!) le dice a TS que nunca será null
-    const modalEl = document.getElementById('modalCategoriaFavorito')!; 
+    const modalEl = document.getElementById('modalCategoriaFavorito')!;
     this.modalCategoriaFavorito = new bootstrap.Modal(modalEl);
-
-    // Listener para limpiar backdrop / scroll cuando Bootstrap termine de ocultar
     modalEl.addEventListener('hidden.bs.modal', () => {
       document.body.style.overflow = '';
       document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
     });
-
     this.modalCategoriaFavorito.show();
   }
 
   seleccionarCategoria(category: string): void {
+    // 1) Comprobar duplicado
+    if (this.favoriteRecipeIds.includes(this.recetaSeleccionada.id)) {
+      alert('Esta receta ya está en favoritos');
+      this.modalCategoriaFavorito.hide();
+      return;
+    }
+
+    // 2) Si no existe, añadir
     const headers = new HttpHeaders().set(
       'Authorization',
       `Bearer ${localStorage.getItem('token')}`
@@ -103,7 +134,9 @@ export class RecetasComponent implements OnInit {
 
     this.http.post('/api/favorites', body, { headers }).subscribe(
       () => {
-        // sólo oculta, el listener se encarga del cleanup
+        // Actualizamos el array local para futuros checks
+        this.favoriteRecipeIds.push(this.recetaSeleccionada.id);
+        // Cerramos modal (el listener hará el cleanup)
         this.modalCategoriaFavorito.hide();
       },
       err => {
