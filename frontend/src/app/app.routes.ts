@@ -11,6 +11,10 @@ import { CrearRecetaComponent } from './pages/crear-receta/crear-receta.componen
 import { FavoritosComponent } from './pages/favoritos/favoritos.component';
 import { ChatGlobalComponent } from './pages/chat-global/chat-global.component';
 import { MenuGeneratorComponent } from './pages/menu-generator/menu-generator.component';
+import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
+
+
+
 
 // 🔐 Middlewares de autenticación y roles
 import { AuthGuard } from './auth/auth.guard';
@@ -18,6 +22,7 @@ import { ChefGuard } from './auth/chef.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
+  
 
   // Rutas públicas
   { path: 'login', component: LoginComponent },
@@ -32,6 +37,9 @@ export const routes: Routes = [
   { path: 'favoritos', component: FavoritosComponent },
   { path: 'receta-detalle/:id', component: RecetaDetalleComponent },
   { path: 'menu-generator', component: MenuGeneratorComponent },
+  {
+  path: 'admin',component: AdminDashboardComponent,canActivate: [AuthGuard] // Ya tienes este guard
+},
 
   // Rutas restringidas
   { path: 'crear-receta', component: CrearRecetaComponent, canActivate: [AuthGuard] },

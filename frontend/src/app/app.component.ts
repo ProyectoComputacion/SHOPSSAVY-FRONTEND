@@ -15,8 +15,8 @@ declare var bootstrap: any;
 })
 export class AppComponent implements OnInit {
   isLoggedIn: boolean = false;
-  userRole: string | null = null;
   logoutMenuOpen: boolean = false;
+  user: any = null; // objeto completo
 
   menuItems = [
     { label: 'Inicio', link: '/home' },
@@ -34,21 +34,26 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.isLoggedIn = this.authService.isAuthenticated();
-    this.userRole = sessionStorage.getItem('userRole');
-    console.log("📌 Rol cargado al iniciar:", this.userRole);
+    this.user = JSON.parse(sessionStorage.getItem('user') || 'null');
+
+    console.log("📌 Usuario cargado al iniciar:", this.user);
 
     // 🔥 Filtrar menús según rol
     this.menuItems = this.menuItems.filter(item => {
       if (!item.role) return true;
-      return item.role === this.userRole?.trim().toLowerCase();
+      return item.role === this.user?.role?.trim().toLowerCase();
     });
+  }
+
+  isAdmin(): boolean {
+    return this.user && this.user.role === 'admin';
   }
 
   logout() {
     this.authService.logout();
     this.isLoggedIn = false;
-    sessionStorage.removeItem('userRole');
-    this.userRole = null;
+    sessionStorage.removeItem('user');
+    this.user = null;
     this.router.navigate(['/login']);
   }
 
@@ -78,6 +83,7 @@ export class AppComponent implements OnInit {
     }
     this.router.navigate(['/register']);
   }
+
   mostrarModalAuth(): void {
     const modalElement = document.getElementById('authRequiredModal');
     if (modalElement) {
@@ -85,25 +91,23 @@ export class AppComponent implements OnInit {
       modal.show();
     }
   }
-  
+
   handleMenuClick(item: any, event: Event): void {
-    event.preventDefault(); // Evitar el comportamiento normal del enlace
-  
+    event.preventDefault();
+
     const isProtected = item.protected;
-    const isLoggedIn = !!sessionStorage.getItem('user_id');
-  
+    const isLoggedIn = !!sessionStorage.getItem('user');
+
     if (item.link === '/logout') {
       this.logout();
       return;
     }
-  
+
     if (isProtected && !isLoggedIn) {
-      this.mostrarModalAuth(); // 🔥 Mostrar modal si no está logueado
+      this.mostrarModalAuth();
       return;
     }
-  
-    // Si está permitido, navegar normalmente
+
     this.router.navigate([item.link]);
   }
-  
 }

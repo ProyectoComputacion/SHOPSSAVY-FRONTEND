@@ -15,16 +15,22 @@
       <!-- 🧭 Menú izquierdo -->
       <ul class="navbar-nav">
         <ng-container *ngFor="let item of menuItems">
-          <li class="nav-item" *ngIf="item.link !== '/logout' && (!item.role || item.role === userRole?.trim())">
+          <li class="nav-item" *ngIf="item.link !== '/logout' && (!item.role || item.role === user?.role?.trim())">
             <a class="nav-link" 
-            [ngClass]="{'active': router.url === item.link}"
-            href="#"
-            (click)="handleMenuClick(item, $event)">
-           {{ item.label }}
-         </a>
-         
+              [ngClass]="{ 'active': router.url === item.link }"
+              href="#"
+              (click)="handleMenuClick(item, $event)">
+              {{ item.label }}
+            </a>
           </li>
         </ng-container>
+
+        <!-- 🛠️ Solo para administradores -->
+        <li class="nav-item" *ngIf="isAdmin()">
+          <a class="nav-link" [routerLink]="'/admin'" [ngClass]="{ 'active': router.url === '/admin' }">
+            Admin
+          </a>
+        </li>
       </ul>
 
       <!-- 🔐 Menú derecho -->

@@ -1,0 +1,54 @@
+<div class="container mt-5">
+  <h2 class="mb-4">📊 Panel de Administración</h2>
+
+  <!-- 🔹 Sección de estadísticas -->
+  <h4>Estadísticas del sistema</h4>
+  <ul>
+    <li>Total de usuarios: {{ estadisticas?.usuarios_total ?? 'Cargando...' }}</li>
+    <li>Total de recetas: {{ estadisticas?.recetas_total ?? 'Cargando...' }}</li>
+    <li>Calificación promedio: {{ estadisticas?.calificacion_promedio ?? 'Cargando...' }}</li>
+  </ul>
+
+  <!-- 🔹 Tabla de usuarios por rol -->
+  <h5 class="mt-4">Usuarios por rol</h5>
+  <table class="table table-bordered">
+    <thead class="table-light">
+      <tr>
+        <th>Rol</th>
+        <th>Cantidad</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let rol of estadisticas?.usuarios_por_rol">
+        <td>{{ rol.role }}</td>
+        <td>{{ rol.cantidad }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 🔹 Configuraciones del sistema -->
+  <h4 class="mt-5">Configuraciones</h4>
+  <ul class="list-group mb-3">
+    <li *ngFor="let c of configuraciones" class="list-group-item d-flex justify-content-between align-items-center">
+      {{ c.clave }}: <strong>{{ c.valor }}</strong>
+    </li>
+  </ul>
+
+  <!-- 🔹 Formulario para actualizar configuraciones -->
+  <form (ngSubmit)="guardarConfiguracion()" class="row g-3">
+    <div class="col-md-5">
+      <input [(ngModel)]="nuevaConfig.clave" name="clave" class="form-control" placeholder="Clave" required />
+    </div>
+    <div class="col-md-5">
+      <input [(ngModel)]="nuevaConfig.valor" name="valor" class="form-control" placeholder="Valor" required />
+    </div>
+    <div class="col-md-2">
+      <button type="submit" class="btn btn-primary w-100">Guardar</button>
+    </div>
+  </form>
+
+  <!-- 🔸 Mensaje de éxito -->
+  <div *ngIf="mensaje" class="alert alert-success mt-3 text-center">
+    {{ mensaje }}
+  </div>
+</div>
