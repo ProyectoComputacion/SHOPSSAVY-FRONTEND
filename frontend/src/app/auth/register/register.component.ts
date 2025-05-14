@@ -15,6 +15,7 @@ export class RegisterComponent {
   username = '';
   password = '';
   role = 'user'; // Default role
+  adminKey = '';
   errorMessage = '';
   passwordError = ''; // Mensaje de error para la contraseña
   isLoading = false; // Estado de carga
@@ -24,11 +25,11 @@ export class RegisterComponent {
   register() {
     console.log('📩 Rol seleccionado antes de enviar:', this.role);
 
-    if (this.role !== 'user' && this.role !== 'chef') {
-      this.role = 'user';
+    if (this.role === 'admin' && this.adminKey !== 'admin123') {
+      this.errorMessage = 'Clave secreta incorrecta para registrar un administrador.';
+      return;
     }
 
-    // Validaciones antes de enviar los datos
     if (!this.username || !this.password) {
       this.errorMessage = 'Rellena todos los campos.';
       return;
@@ -41,28 +42,21 @@ export class RegisterComponent {
       this.passwordError = ''; // Borra el mensaje de error si la contraseña es válida
     }
 
-    console.log('📩 Enviando datos de registro:', {
-      username: this.username,
-      password: this.password,
-      role: this.role
-    });
-
-    this.isLoading = true; // Activar animación de carga
+    this.isLoading = true;
 
     setTimeout(() => {
-      this.authService.register(this.username, this.password, this.role).subscribe(
+      this.authService.register(this.username, this.password, this.role, this.adminKey).subscribe(
         (response) => {
-          console.log('✅ Usuario registrado con éxito:', response.user.role);
           this.isLoading = false;
-          this.router.navigate(['/login']); // Redirigir al login
+          this.router.navigate(['/login']);
         },
         (error) => {
-          this.errorMessage = 'Error en el registro. Inténtalo de nuevo.';
+          this.errorMessage = error.message || 'Error en el registro. Inténtalo de nuevo.';
           console.error('❌ Error en el registro:', error);
           this.isLoading = false;
         }
       );
-    }, 1000); // Simula una espera de 1 segundo
+    }, 1000);
   }
 
   onRoleChange(event: any) {
@@ -70,9 +64,6 @@ export class RegisterComponent {
     console.log('🔄 Nuevo rol seleccionado:', this.role);
   }
 
-  /**
-   * ✅ Redirige a la página de login cuando el usuario hace clic en "Inicia sesión".
-   */
   goToLogin(): void {
     this.router.navigate(['/login']);
   }

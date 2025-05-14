@@ -31,7 +31,6 @@ export class LoginComponent {
           sessionStorage.setItem('userRole', response.user.role);
             // Almacenar el user_id y el auth_token en sessionStorage
         sessionStorage.setItem('user_id', response.user.id);
-        sessionStorage.setItem('auth_token', response.access_token);
 
           console.log("📌 Rol guardado en sessionStorage:", response.user.role);
           this.router.navigate(['/home']).then(() => {
