@@ -24,13 +24,6 @@
             </a>
           </li>
         </ng-container>
-
-        <!-- 🛠️ Solo para administradores -->
-        <li class="nav-item" *ngIf="isAdmin()">
-          <a class="nav-link" [routerLink]="'/admin'" [ngClass]="{ 'active': router.url === '/admin' }">
-            Admin
-          </a>
-        </li>
       </ul>
 
       <!-- 🔐 Menú derecho -->

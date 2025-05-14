@@ -25,7 +25,8 @@ export class AppComponent implements OnInit {
     { label: 'Calificados', link: '/clasificados', protected: true },
     { label: 'Favoritos', link: '/favoritos', protected: true },
     { label: 'Presupuesto', link: '/presupuesto' },
-    { label: 'Crea Tu Receta', link: '/crear-receta', role: 'chef' }
+    { label: 'Crea Tu Receta', link: '/crear-receta', role: 'chef' },
+    { label: 'Configuración', link: '/admin', role: 'admin' }
   ];
 
   private authService = inject(AuthService);

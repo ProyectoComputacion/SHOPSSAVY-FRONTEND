@@ -37,13 +37,11 @@ export const routes: Routes = [
   { path: 'favoritos', component: FavoritosComponent },
   { path: 'receta-detalle/:id', component: RecetaDetalleComponent },
   { path: 'menu-generator', component: MenuGeneratorComponent },
-  {
-  path: 'admin',component: AdminDashboardComponent,canActivate: [AuthGuard] // Ya tienes este guard
-},
 
   // Rutas restringidas
   { path: 'crear-receta', component: CrearRecetaComponent, canActivate: [AuthGuard] },
   { path: 'chat-global', component: ChatGlobalComponent, canActivate: [AuthGuard] },
+  { path: 'admin',component: AdminDashboardComponent,canActivate: [AuthGuard] },
 
   // Ruta por defecto
   { path: '**', redirectTo: 'home' }
