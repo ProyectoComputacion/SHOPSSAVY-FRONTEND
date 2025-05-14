@@ -30,21 +30,21 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   cargarEstadisticas() {
-    this.http.get('/api/admin/stats', this.auth.header()).subscribe({
+    this.http.get('/api/admin/stats').subscribe({
       next: res => this.estadisticas = res,
       error: err => console.error("Error cargando estadísticas:", err)
     });
   }
 
   cargarConfiguraciones() {
-    this.http.get<any[]>('/api/admin/config', this.auth.header()).subscribe({
+    this.http.get<any[]>('/api/admin/config').subscribe({
       next: res => this.configuraciones = res,
       error: err => console.error("Error cargando configuraciones:", err)
     });
   }
 
   guardarConfiguracion() {
-    this.http.post('/api/admin/config', this.nuevaConfig, this.auth.header()).subscribe({
+    this.http.post('/api/admin/config', this.nuevaConfig).subscribe({
       next: (res: any) => {
         this.mensaje = res.message;
         this.nuevaConfig = { clave: '', valor: '' };
@@ -56,7 +56,7 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   obtenerUsuarios() {
-    this.http.get<any[]>('/api/users', this.auth.header()).subscribe({
+    this.http.get<any[]>('/api/users').subscribe({
       next: res => {
         this.usuarios = res.map(u => ({ ...u, nuevoRol: u.role }));
       },
@@ -66,7 +66,7 @@ export class AdminDashboardComponent implements OnInit {
 
   cambiarRol(usuario: any) {
     const payload = { role: usuario.nuevoRol };
-    this.http.put(`/api/admin/users/${usuario.id}/role`, payload, this.auth.header()).subscribe({
+    this.http.put(`/api/admin/users/${usuario.id}/role`, payload).subscribe({
       next: (res: any) => {
         this.mensaje = 'Rol actualizado correctamente';
         usuario.role = usuario.nuevoRol;
@@ -79,7 +79,7 @@ export class AdminDashboardComponent implements OnInit {
   eliminarUsuario(id: number) {
     if (!confirm('¿Estás seguro de eliminar este usuario?')) return;
 
-    this.http.delete(`/api/admin/users/${id}`, this.auth.header()).subscribe({
+    this.http.delete(`/api/admin/users/${id}`).subscribe({
       next: () => {
         this.mensaje = 'Usuario eliminado correctamente';
         this.usuarios = this.usuarios.filter(u => u.id !== id);
@@ -90,7 +90,7 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   obtenerRecetas() {
-    this.http.get<any[]>('/api/recipes', this.auth.header()).subscribe({
+    this.http.get<any[]>('/api/recipes').subscribe({
       next: res => this.recetas = res,
       error: err => console.error('Error al obtener recetas:', err)
     });
@@ -99,7 +99,7 @@ export class AdminDashboardComponent implements OnInit {
   eliminarReceta(id: number) {
     if (!confirm('¿Estás seguro de eliminar esta receta?')) return;
 
-    this.http.delete(`/api/admin/recipes/${id}`, this.auth.header()).subscribe({
+    this.http.delete(`/api/admin/recipes/${id}`).subscribe({
       next: () => {
         this.mensaje = 'Receta eliminada correctamente';
         this.recetas = this.recetas.filter(r => r.id !== id);

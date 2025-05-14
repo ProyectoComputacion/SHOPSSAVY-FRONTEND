@@ -5,19 +5,17 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log("TokenInterceptor: Interceptando solicitud:", req);
-    const token = sessionStorage.getItem('userToken');
+  const token = sessionStorage.getItem('userToken');
+  const apiUrl = req.url.startsWith('http') ? req.url : `http://127.0.0.1:8000${req.url}`;
 
-    if (token) {
-      console.log("TokenInterceptor: Token encontrado, añadiendo cabecera Authorization:", token);
-      const authReq = req.clone({
+  const authReq = token
+    ? req.clone({
+        url: apiUrl,
         headers: req.headers.set('Authorization', `Bearer ${token}`)
-      });
-      console.log("TokenInterceptor: Nueva solicitud con token:", authReq);
-      return next.handle(authReq);
-    }
+      })
+    : req.clone({ url: apiUrl });
 
-    console.log("TokenInterceptor: No se encontró token, enviando solicitud sin modificaciones.");
-    return next.handle(req);
-  }
+  return next.handle(authReq);
+}
+
 }

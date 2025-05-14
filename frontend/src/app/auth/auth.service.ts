@@ -35,24 +35,30 @@ export class AuthService {
     );
   }
 
-  register(username: string, password: string, role: string): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'X-Requested-With': 'XMLHttpRequest'
-    });
+register(username: string, password: string, role: string, adminKey?: string): Observable<any> {
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'X-Requested-With': 'XMLHttpRequest'
+  });
 
-    return this.http.post(`${this.apiURL}/register`, { username, password, role }, { headers }).pipe(
-      tap((response: any) => {
-        if (response.access_token) {
-          sessionStorage.setItem('userToken', response.access_token);
-          sessionStorage.setItem('user', JSON.stringify(response.user)); // Guarda el user completo
-        }
-      }),
-      catchError(error => {
-        return throwError(() => new Error('Error en el registro, verifica los datos'));
-      })
-    );
+  const payload: any = { username, password, role };
+  if (role === 'admin' && adminKey) {
+    payload.admin_key = adminKey;
   }
+
+  return this.http.post(`${this.apiURL}/register`, payload, { headers }).pipe(
+    tap((response: any) => {
+      if (response.access_token) {
+        sessionStorage.setItem('userToken', response.access_token);
+        sessionStorage.setItem('user', JSON.stringify(response.user));
+      }
+    }),
+    catchError(error => {
+      return throwError(() => new Error('Error en el registro, verifica los datos'));
+    })
+  );
+}
+
 
   logout(): void {
     sessionStorage.removeItem('userToken');
