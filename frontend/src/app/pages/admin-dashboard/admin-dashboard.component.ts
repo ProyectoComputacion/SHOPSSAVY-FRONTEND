@@ -14,6 +14,9 @@ import { AuthService } from 'src/app/auth/auth.service';
 export class AdminDashboardComponent implements OnInit {
   estadisticas: any = {};
   configuraciones: any[] = [];
+  usuarios: any[] = [];
+  recetas: any[] = [];
+  roles: string[] = ['user', 'chef', 'admin'];
   nuevaConfig = { clave: '', valor: '' };
   mensaje: string = '';
 
@@ -22,6 +25,8 @@ export class AdminDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.cargarEstadisticas();
     this.cargarConfiguraciones();
+    this.obtenerUsuarios();
+    this.obtenerRecetas();
   }
 
   cargarEstadisticas() {
@@ -47,6 +52,60 @@ export class AdminDashboardComponent implements OnInit {
         setTimeout(() => this.mensaje = '', 3000);
       },
       error: err => console.error("Error guardando configuración:", err)
+    });
+  }
+
+  obtenerUsuarios() {
+    this.http.get<any[]>('/api/users', this.auth.header()).subscribe({
+      next: res => {
+        this.usuarios = res.map(u => ({ ...u, nuevoRol: u.role }));
+      },
+      error: err => console.error('Error al obtener usuarios:', err)
+    });
+  }
+
+  cambiarRol(usuario: any) {
+    const payload = { role: usuario.nuevoRol };
+    this.http.put(`/api/admin/users/${usuario.id}/role`, payload, this.auth.header()).subscribe({
+      next: (res: any) => {
+        this.mensaje = 'Rol actualizado correctamente';
+        usuario.role = usuario.nuevoRol;
+        setTimeout(() => this.mensaje = '', 3000);
+      },
+      error: err => console.error('Error actualizando rol:', err)
+    });
+  }
+
+  eliminarUsuario(id: number) {
+    if (!confirm('¿Estás seguro de eliminar este usuario?')) return;
+
+    this.http.delete(`/api/admin/users/${id}`, this.auth.header()).subscribe({
+      next: () => {
+        this.mensaje = 'Usuario eliminado correctamente';
+        this.usuarios = this.usuarios.filter(u => u.id !== id);
+        setTimeout(() => this.mensaje = '', 3000);
+      },
+      error: err => console.error('Error al eliminar usuario:', err)
+    });
+  }
+
+  obtenerRecetas() {
+    this.http.get<any[]>('/api/recipes', this.auth.header()).subscribe({
+      next: res => this.recetas = res,
+      error: err => console.error('Error al obtener recetas:', err)
+    });
+  }
+
+  eliminarReceta(id: number) {
+    if (!confirm('¿Estás seguro de eliminar esta receta?')) return;
+
+    this.http.delete(`/api/admin/recipes/${id}`, this.auth.header()).subscribe({
+      next: () => {
+        this.mensaje = 'Receta eliminada correctamente';
+        this.recetas = this.recetas.filter(r => r.id !== id);
+        setTimeout(() => this.mensaje = '', 3000);
+      },
+      error: err => console.error('Error al eliminar receta:', err)
     });
   }
 }
