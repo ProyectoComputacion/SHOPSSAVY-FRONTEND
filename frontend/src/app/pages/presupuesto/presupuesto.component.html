@@ -1,5 +1,6 @@
-<div class="bg-beige min-vh-100 py-4">
-  <div class="container bg-light-gray rounded shadow p-4"> <!-- ✅ Container gris claro -->
+<div class="bg-beige py-4">
+  <div class="container page-container-light">
+
     <div class="card shadow-sm p-4 mb-4 bg-white">
       <div class="row g-3 align-items-center">
         <div class="col-md-8 text-center">
@@ -34,7 +35,6 @@
         <div *ngFor="let receta of resultados" class="col-6 col-md-4 col-lg-2">
           <div class="card h-100 shadow-sm p-3 resultado-card clickable bg-white" (click)="verDetalles(receta.id)">
             
-            <!-- ✅ Imagen arriba -->
             <img *ngIf="receta.imagen"
                  [src]="receta.imagen"
                  alt="{{ receta.name }}"

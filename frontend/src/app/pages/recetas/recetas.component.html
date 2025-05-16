@@ -1,6 +1,5 @@
-<!-- Fondo beige igual que Home -->
-<div class="min-vh-100 py-4 bg-beige">
-  <div class="container shadow rounded p-4 bg-white">
+<div class="py-4 bg-beige">
+  <div class="container page-container">
 
     <!-- FILTROS -->
     <div class="filtros">
@@ -15,7 +14,6 @@
         <span></span>
         <span></span>
       </div>
-      <!-- Placeholder para futuro filtro de tipo -->
       <div class="type-filter"></div>
     </div>
 
@@ -45,10 +43,7 @@
           >
             {{ categoria | titlecase }}
           </li>
-          <li
-            class="list-group-item text-muted"
-            (click)="setCategoria('')"
-          >
+          <li class="list-group-item text-muted" (click)="setCategoria('')">
             Ver todas
           </li>
         </ul>
@@ -76,20 +71,16 @@
             }}
           </span>
           <div class="botones">
-            <!-- Botón estrella -->
             <button
               type="button"
-              class="favorito-btn"
+              class="btn-fav"
               data-bs-toggle="modal"
               data-bs-target="#modalCategoriaFavorito"
               (click)="abrirModalCategoria(receta)"
             >
               ☆
             </button>
-            <button
-              class="receta-btn"
-              (click)="verDetalles(receta.id)"
-            >
+            <button class="btn-yellow" (click)="verDetalles(receta.id)">
               Ver detalles
             </button>
           </div>

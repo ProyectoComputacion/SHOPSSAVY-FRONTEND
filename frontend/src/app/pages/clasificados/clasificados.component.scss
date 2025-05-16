@@ -1,31 +1,29 @@
-/* Cards */
+/* Card principal */
 .card {
   border-radius: 1rem;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  min-height: 280px; /* 🔥 Ahora más bajitas aún */
+  min-height: 280px;
   background-color: #ffffff;
   overflow: hidden;
 }
 
-.bg-beige {
-  background-color: #faf1e6 !important; /* ✅ Fondo beige */
-}
 .card:hover {
   transform: translateY(-4px);
   box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.12);
 }
 
-/* Imagen */
+/* Imagen dentro de la card */
 .card-img-top {
   width: 100%;
-  height: 120px; /* 🔥 Imagen más bajita */
+  height: 120px;
   object-fit: cover;
   border-radius: 0;
 }
 
-/* Body de la card */
+/* Contenido interior de la card */
 .card-body {
-  padding: 0.6rem 0.4rem; /* 🔥 Menos espacio interior */
+  padding: 0.6rem 0.4rem;
+  text-align: center;
 }
 
 /* Título */
@@ -35,7 +33,7 @@
   margin-bottom: 0.3rem;
 }
 
-/* Texto */
+/* Texto inferior */
 .card-text {
   font-size: 0.8rem;
   color: #555;

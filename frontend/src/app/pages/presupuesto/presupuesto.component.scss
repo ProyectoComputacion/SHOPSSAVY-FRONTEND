@@ -1,22 +1,10 @@
-/* Fondo general */
-.bg-beige {
-  background-color: #faf1e6 !important;
-}
-
-/* Contenedor principal ahora gris claro */
-.bg-light-gray {
-  background-color: #f5f5f5 !important;
-  border-radius: 15px;
-  padding: 20px;
-}
-
-/* Card */
+/* === Card búsqueda y resultados === */
 .card {
   background-color: #ffffff;
   border-radius: 15px;
 }
 
-/* Botón Buscar */
+/* === Botón Buscar === */
 .btn-buscar {
   background-color: #FFE76E !important;
   color: #333 !important;
@@ -25,14 +13,14 @@
   border-radius: 10px;
   font-size: 1.1rem;
   transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #ffd93b !important;
+    color: #000 !important;
+  }
 }
 
-.btn-buscar:hover {
-  background-color: #ffd93b !important;
-  color: #000 !important;
-}
-
-/* Slider */
+/* === Slider personalizado === */
 .slider-presupuesto {
   width: 70%;
   margin: auto;
@@ -69,7 +57,7 @@
   background-color: #ffd93b;
 }
 
-/* Cards resultados */
+/* === Cards de resultados === */
 .resultado-card {
   background-color: #ffffff;
   border-radius: 10px;
@@ -82,26 +70,26 @@
   align-items: center;
   text-align: center;
   padding: 0.8rem 0.5rem;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  .card-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    font-size: 0.8rem;
+    color: #555;
+    margin: 0.2rem 0;
+  }
 }
 
-.resultado-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
-}
-
-.resultado-card .card-title {
-  font-size: 0.9rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-}
-
-.resultado-card p {
-  font-size: 0.8rem;
-  color: #555;
-  margin: 0.2rem 0;
-}
-
-/* ✅ Imagen de resultado */
+/* Imagen de receta */
 .resultado-imagen {
   height: 80px;
   width: 100%;

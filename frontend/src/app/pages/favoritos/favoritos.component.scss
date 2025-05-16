@@ -1,17 +1,4 @@
-/* Fondo beige */
-.bg-beige {
-  background-color: #faf1e6;
-}
-
-/* Contenedor principal */
-.container {
-  width: 90%;
-  max-width: 1200px;
-  margin: 0 auto;
-  font-family: 'Inter', sans-serif;
-}
-
-/* --- FILTROS --- */
+/* === FILTROS === */
 .filtros {
   display: flex;
   align-items: center;
@@ -24,7 +11,6 @@
   }
 }
 
-/* Botón hamburguesa */
 .hamburger-btn {
   flex-shrink: 0;
   display: flex;
@@ -42,12 +28,11 @@
   }
 }
 
-/* Placeholder filtro tipo */
 .type-filter {
   flex: 1;
 }
 
-/* --- Offcanvas --- */
+/* === Offcanvas === */
 .offcanvas-body {
   background: #f8f9fa;
 }
@@ -67,22 +52,19 @@
   text-align: center;
 }
 
-/* --- GRID de Favoritos --- */
+/* === GRID === */
 .recetas-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
   margin-top: 1rem;
-}
 
-/* Ajustes puntuales */
-@media (max-width: 576px) {
-  .recetas-grid {
+  @media (max-width: 576px) {
     grid-template-columns: 1fr;
   }
 }
 
-/* --- Tarjeta individual --- */
+/* === Tarjeta de favorito === */
 .receta-card {
   background: #fff;
   border-radius: 11px;
@@ -99,7 +81,6 @@
   }
 }
 
-/* Imagen */
 .receta-img-container {
   width: 100%;
   height: 180px;
@@ -112,7 +93,7 @@
   object-fit: cover;
 }
 
-/* Info */
+/* === Info dentro de la tarjeta === */
 .receta-info {
   padding: 1rem;
   display: flex;
@@ -134,7 +115,7 @@
   flex-grow: 1;
 }
 
-/* Botón eliminar */
+/* === Botón Eliminar === */
 .eliminar-btn {
   align-self: flex-end;
   background: #ff4d4d;

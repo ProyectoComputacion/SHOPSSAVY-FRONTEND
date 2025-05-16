@@ -1,17 +1,17 @@
-<div class="bg-beige min-vh-100 py-4">
-  <div class="container bg-white rounded shadow p-4">
+<div class="bg-beige py-4">
+  <div class="container page-container">
     <div *ngIf="recetasTop.length > 0; else sinDatos">
       <div class="row g-4">
         <div *ngFor="let receta of recetasTop" class="col-12 col-md-6 col-lg-3">
           <!-- ✅ Enlace completo -->
           <a [routerLink]="['/receta-detalle', receta.recipe_id]" class="text-decoration-none text-dark">
             <div class="card h-100 shadow-sm">
-              
+
               <img *ngIf="receta.recipe?.imagen"
                    [src]="receta.recipe.imagen"
                    class="card-img-top"
                    alt="{{ receta.recipe?.name }}"
-                   style="height: 160px; object-fit: cover;"> <!-- 👈 Imagen un poco más baja -->
+              >
 
               <div class="card-body text-center">
                 <h5 class="card-title">{{ receta.recipe?.name || ('Receta #' + receta.recipe_id) }}</h5>

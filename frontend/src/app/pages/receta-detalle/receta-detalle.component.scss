@@ -1,16 +1,4 @@
-/* Fondo beige */
-.bg-beige {
-  background-color: #faf1e6;
-}
-
-/* Contenedor */
-.container {
-  width: 90%;
-  margin: 0 auto;
-  font-family: 'Inter', sans-serif;
-}
-
-/* Header imagen con overlay gradiente */
+/* === Encabezado con imagen y overlay === */
 .receta-header {
   position: relative;
   width: 100%;
@@ -26,6 +14,7 @@
     filter: brightness(0.9);
     transition: transform 0.5s;
   }
+
   &:hover .receta-img {
     transform: scale(1.02);
   }
@@ -36,17 +25,14 @@
     left: 0;
     width: 100%;
     padding: 1rem 1.5rem;
-    background: linear-gradient(
-      to top,
-      rgba(0, 0, 0, 0.7),
-      rgba(0, 0, 0, 0)
-    );
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
     color: #fff;
 
     .receta-name {
       font-size: 2.5rem;
       margin: 0;
     }
+
     .receta-tipo {
       font-size: 1.25rem;
       margin-top: 0.5rem;
@@ -55,7 +41,7 @@
   }
 }
 
-/* Ingredientes */
+/* === Sección de ingredientes === */
 .receta-info {
   background: #fff;
   padding: 1.5rem;
@@ -66,22 +52,26 @@
     margin-bottom: 1rem;
     font-weight: 600;
   }
+
   ul {
     list-style: disc inside;
+
     li {
       margin-bottom: 0.5rem;
+
       strong {
         color: #333;
       }
     }
   }
+
   .text-muted {
     color: #777;
     font-style: italic;
   }
 }
 
-/* Botones de acción */
+/* === Acciones de receta === */
 .receta-acciones {
   display: flex;
   gap: 1rem;
@@ -99,30 +89,36 @@
       transform: translateY(-2px);
     }
   }
+
   .btn-volver {
     background: #ccc;
     color: #000;
+
     &:hover {
       background: #bbb;
     }
   }
+
   .btn-calificar {
     background: #ffd54f;
     color: #000;
+
     &:hover {
       background: #ffca28;
     }
   }
+
   .btn-carrito {
     background: #ffeb3b;
     color: #000;
+
     &:hover {
       background: #fdd835;
     }
   }
 }
 
-/* Estrellas en el modal */
+/* === Estrellas en el modal === */
 .estrellas {
   font-size: 2rem;
   display: flex;

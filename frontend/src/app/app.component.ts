@@ -1,57 +1,37 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from './auth/auth.service';
-import { RouterOutlet } from '@angular/router';
-import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './shared/header/header.component';
+
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    HeaderComponent,
     CommonModule,
     FormsModule,
+    RouterModule,
     RouterOutlet,
-    RouterModule
+    HeaderComponent
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
-  title = 'frontend';
-  isLoggedIn: boolean = false;
-  logoutMenuOpen: boolean = false;
-  user: any = null;
-
-  menuItems = [
-    { label: 'Inicio', link: '/home' },
-    { label: 'Recetas', link: '/recetas' },
-    { label: 'Carrito', link: '/carrito', protected: true },
-    { label: 'Calificados', link: '/clasificados', protected: true },
-    { label: 'Favoritos', link: '/favoritos', protected: true },
-    { label: 'Presupuesto', link: '/presupuesto' },
-    { label: 'Crea Tu Receta', link: '/crear-receta', role: 'chef' },
-    { label: 'Configuración', link: '/admin', role: 'admin' }
-  ];
-
-  private authService = inject(AuthService);
-
+export class AppComponent {
   constructor(public router: Router) {}
-
-  ngOnInit() {
-    this.isLoggedIn = this.authService.isAuthenticated();
-    this.user = JSON.parse(sessionStorage.getItem('user') || 'null');
-    this.menuItems = this.menuItems.filter(item => {
-      if (!item.role) return true;
-      return item.role === this.user?.role?.trim().toLowerCase();
-    });
-  }
 
   isAuthPage(): boolean {
     return this.router.url === '/login' || this.router.url === '/register';
+  }
+
+  mostrarModalAuth(): void {
+    const modalEl = document.getElementById('authRequiredModal');
+    if (modalEl) {
+      new bootstrap.Modal(modalEl).show();
+    }
   }
 
   redirigirLogin(): void {
@@ -70,31 +50,5 @@ export class AppComponent implements OnInit {
       modal?.hide();
     }
     this.router.navigate(['/register']);
-  }
-
-  mostrarModalAuth(): void {
-    const modalEl = document.getElementById('authRequiredModal');
-    if (modalEl) {
-      new bootstrap.Modal(modalEl).show();
-    }
-  }
-
-  handleMenuClick(item: any, event: Event): void {
-    event.preventDefault();
-    const isProtected = item.protected;
-    const isLogged = !!sessionStorage.getItem('user');
-    if (item.link === '/logout') {
-      this.authService.logout();
-      this.isLoggedIn = false;
-      sessionStorage.removeItem('user');
-      this.user = null;
-      this.router.navigate(['/login']);
-      return;
-    }
-    if (isProtected && !isLogged) {
-      this.mostrarModalAuth();
-      return;
-    }
-    this.router.navigate([item.link]);
   }
 }

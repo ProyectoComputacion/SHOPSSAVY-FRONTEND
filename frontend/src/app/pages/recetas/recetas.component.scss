@@ -1,31 +1,16 @@
-/* Fondo beige igual que Home */
-.bg-beige {
-  background-color: #faf1e6;
-}
-
-/* Contenedor principal */
-.container {
-  width: 90%;
-  max-width: 1200px;
-  margin: 0 auto;
-  font-family: 'Inter', sans-serif;
-}
-
 /* --- FILTROS --- */
 .filtros {
   display: flex;
   align-items: center;
   gap: 1rem;
   margin-bottom: 1.5rem;
-  
-  /* En pantallas muy pequeñas, apilar verticalmente */
+
   @media (max-width: 576px) {
     flex-direction: column;
     align-items: stretch;
   }
 }
 
-/* Botón hamburguesa */
 .hamburger-btn {
   flex-shrink: 0;
   display: flex;
@@ -43,7 +28,6 @@
   }
 }
 
-/* Placeholder para futuro filtro */
 .type-filter {
   flex: 1;
 }
@@ -53,7 +37,6 @@
   background: #f8f9fa;
 }
 
-/* Lista dentro del offcanvas */
 .list-group-item {
   border: none;
   padding: 1rem 1.5rem;
@@ -69,35 +52,32 @@
   text-align: center;
 }
 
-/* --- GRID DE RECETAS: auto-fit para responsive --- */
+/* --- GRID DE RECETAS --- */
 .recetas-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
 }
 
-/* Ajustes para muy pequeñas */
 @media (max-width: 576px) {
   .recetas-grid {
     grid-template-columns: 1fr;
   }
 }
 
-/* Ajustes tablets */
 @media (min-width: 577px) and (max-width: 768px) {
   .recetas-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* Ajustes escritorios medianos */
 @media (min-width: 769px) and (max-width: 992px) {
   .recetas-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-/* --- Tarjeta de receta --- */
+/* --- Tarjetas --- */
 .receta-card {
   background: #fff;
   border-radius: 11px;
@@ -111,7 +91,6 @@
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
   }
 
-  /* En móviles reduce padding de info */
   @media (max-width: 576px) {
     .receta-info {
       flex-direction: column;
@@ -144,7 +123,6 @@
   }
 }
 
-/* Sección inferior de la tarjeta */
 .receta-info {
   display: flex;
   justify-content: space-between;
@@ -171,34 +149,6 @@
   display: flex;
   gap: 10px;
   align-items: center;
-}
-
-.favorito-btn {
-  background: transparent;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  color: #666666;
-  transition: color 0.3s;
-
-  &:hover {
-    color: #333333;
-  }
-}
-
-.receta-btn {
-  background: #ffe76e;
-  border: none;
-  padding: 10px 15px;
-  font-size: 16px;
-  font-weight: 700;
-  border-radius: 11px;
-  cursor: pointer;
-
-  @media (max-width: 576px) {
-    padding: 8px 12px;
-    font-size: 14px;
-  }
 }
 
 /* --- Modal de categorías --- */

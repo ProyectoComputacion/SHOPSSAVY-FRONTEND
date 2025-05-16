@@ -1,10 +1,8 @@
-// header.component.ts
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../auth/auth.service';
-declare var bootstrap: any;
 
 @Component({
   selector: 'app-header',
@@ -14,9 +12,12 @@ declare var bootstrap: any;
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  @Output() authRequired = new EventEmitter<void>();
+
   isLoggedIn: boolean = false;
   logoutMenuOpen: boolean = false;
   user: any = null;
+
   menuItems = [
     { label: 'Inicio', link: '/home' },
     { label: 'Recetas', link: '/recetas' },
@@ -67,7 +68,7 @@ export class HeaderComponent implements OnInit {
     const isLogged = !!sessionStorage.getItem('user');
 
     if (isProtected && !isLogged) {
-      this.mostrarModalAuth();
+      this.authRequired.emit(); // Le pide a AppComponent que muestre el modal
       return;
     }
 
@@ -77,31 +78,5 @@ export class HeaderComponent implements OnInit {
     }
 
     this.router.navigate([item.link]);
-  }
-
-  mostrarModalAuth(): void {
-    const modalElement = document.getElementById('authRequiredModal');
-    if (modalElement) {
-      const modal = new bootstrap.Modal(modalElement);
-      modal.show();
-    }
-  }
-
-  redirigirLogin(): void {
-    const modalElement = document.getElementById('authRequiredModal');
-    if (modalElement) {
-      const modal = bootstrap.Modal.getInstance(modalElement);
-      modal?.hide();
-    }
-    this.router.navigate(['/login']);
-  }
-
-  redirigirRegistro(): void {
-    const modalElement = document.getElementById('authRequiredModal');
-    if (modalElement) {
-      const modal = bootstrap.Modal.getInstance(modalElement);
-      modal?.hide();
-    }
-    this.router.navigate(['/register']);
   }
 }
