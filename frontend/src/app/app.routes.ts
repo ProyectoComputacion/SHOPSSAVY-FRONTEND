@@ -11,7 +11,7 @@ import { CrearRecetaComponent } from './pages/crear-receta/crear-receta.componen
 import { FavoritosComponent } from './pages/favoritos/favoritos.component';
 import { ChatGlobalComponent } from './pages/chat-global/chat-global.component';
 import { MenuGeneratorComponent } from './pages/menu-generator/menu-generator.component';
-import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
+import {AdminHomeComponent} from './pages/admin-home/admin-home.component';
 
 
 
@@ -38,10 +38,20 @@ export const routes: Routes = [
   { path: 'receta-detalle/:id', component: RecetaDetalleComponent },
   { path: 'menu-generator', component: MenuGeneratorComponent },
 
+
+
   // Rutas restringidas
   { path: 'crear-receta', component: CrearRecetaComponent, canActivate: [AuthGuard] },
   { path: 'chat-global', component: ChatGlobalComponent, canActivate: [AuthGuard] },
-  { path: 'admin',component: AdminDashboardComponent,canActivate: [AuthGuard] },
+  {path: 'admin',children: [
+    { path: '', loadComponent: () => import('./pages/admin-home/admin-home.component').then(m => m.AdminHomeComponent) },
+    { path: 'usuarios', loadComponent: () => import('./pages/admin-usuarios/admin-usuarios.component').then(m => m.AdminUsuariosComponent) },
+    { path: 'recetas', loadComponent: () => import('./pages/admin-recetas/admin-recetas.component').then(m => m.AdminRecetasComponent) },
+    { path: 'chart', loadComponent: () => import('./pages/chart/chart.component').then(m => m.ChartComponent) },
+    { path: 'configuraciones', loadComponent: () => import('./pages/admin-configuraciones/admin-configuraciones.component').then(m => m.AdminConfiguracionesComponent) },
+  ]
+},
+
 
   // Ruta por defecto
   { path: '**', redirectTo: 'home' }

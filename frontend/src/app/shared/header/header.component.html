@@ -1,0 +1,51 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="!isAuthPage()">
+  <div class="container-fluid">
+    <!-- Logo o marca -->
+    <a class="navbar-brand" routerLink="/home"><b>ShopSavy</b></a>
+
+    <!-- Botón responsive -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Contenido del navbar -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <!-- 🧭 Menú izquierdo -->
+      <ul class="navbar-nav">
+        <ng-container *ngFor="let item of menuItems">
+          <li class="nav-item" *ngIf="item.link !== '/logout' && (!item.role || item.role === user?.role?.trim())">
+            <a class="nav-link"
+              [ngClass]="{ 'active': router.url === item.link }"
+              href="#"
+              (click)="handleMenuClick(item, $event)">
+              {{ item.label }}
+            </a>
+          </li>
+        </ng-container>
+      </ul>
+
+      <!-- 🔐 Menú derecho -->
+      <ul class="navbar-nav ms-auto">
+        <ng-container *ngIf="isLoggedIn; else loginLink">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleLogoutMenu($event)">
+              Otras Opciones
+            </a>
+            <ul class="dropdown-menu" [ngClass]="{ 'show': logoutMenuOpen }">
+              <li>
+                <a class="dropdown-item" (click)="logout()">Cerrar sesión</a>
+              </li>
+            </ul>
+          </li>
+        </ng-container>
+        <!-- 🟠 Si no está logueado: botón de login -->
+        <ng-template #loginLink>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/login">Iniciar sesión</a>
+          </li>
+        </ng-template>
+      </ul>
+    </div>
+  </div>
+</nav>

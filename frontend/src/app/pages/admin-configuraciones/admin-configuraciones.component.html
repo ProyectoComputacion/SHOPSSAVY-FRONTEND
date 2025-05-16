@@ -1,0 +1,46 @@
+<div class="container mt-5">
+  <h2 class="mb-4">⚙️ Gestión de Componentes del Frontend</h2>
+
+  <!-- Mensaje de éxito -->
+  <div *ngIf="mensaje" class="alert alert-success text-center">
+    {{ mensaje }}
+  </div>
+
+  <!-- Tabla de componentes existentes -->
+  <h4>Componentes actuales</h4>
+  <table class="table table-bordered">
+    <thead class="table-light">
+      <tr>
+        <th>Nombre</th>
+        <th>Valor</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let c of componentes">
+        <td>{{ c.nombre }}</td>
+        <td>
+          <input [(ngModel)]="c.valor" class="form-control" />
+        </td>
+        <td>
+          <button (click)="actualizarComponente(c)" class="btn btn-sm btn-primary me-2">Actualizar</button>
+          <button (click)="eliminarComponente(c.id)" class="btn btn-sm btn-danger">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Formulario para nuevo componente -->
+  <h4 class="mt-5">Agregar nuevo componente</h4>
+  <form (ngSubmit)="crearComponente()" class="row g-3">
+    <div class="col-md-5">
+      <input [(ngModel)]="nuevoComponente.nombre" name="nombre" class="form-control" placeholder="Nombre del componente" required />
+    </div>
+    <div class="col-md-5">
+      <input [(ngModel)]="nuevoComponente.valor" name="valor" class="form-control" placeholder="Valor del componente" required />
+    </div>
+    <div class="col-md-2">
+      <button type="submit" class="btn btn-success w-100">Crear</button>
+    </div>
+  </form>
+</div>
