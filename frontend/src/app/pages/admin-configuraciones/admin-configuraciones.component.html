@@ -1,46 +1,49 @@
 <div class="container mt-5">
-  <h2 class="mb-4">⚙️ Gestión de Componentes del Frontend</h2>
+  <h2 class="mb-4">🎨 Personalización del Sitio</h2>
 
-  <!-- Mensaje de éxito -->
   <div *ngIf="mensaje" class="alert alert-success text-center">
     {{ mensaje }}
   </div>
 
-  <!-- Tabla de componentes existentes -->
-  <h4>Componentes actuales</h4>
-  <table class="table table-bordered">
-    <thead class="table-light">
-      <tr>
-        <th>Nombre</th>
-        <th>Valor</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let c of componentes">
-        <td>{{ c.nombre }}</td>
-        <td>
-          <input [(ngModel)]="c.valor" class="form-control" />
-        </td>
-        <td>
-          <button (click)="actualizarComponente(c)" class="btn btn-sm btn-primary me-2">Actualizar</button>
-          <button (click)="eliminarComponente(c.id)" class="btn btn-sm btn-danger">Eliminar</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <form (ngSubmit)="guardarCambios()">
+    <div class="row g-3">
+      <!-- Color de fondo -->
+      <div class="col-md-6">
+        <label for="backgroundColor" class="form-label">Color de fondo:</label>
+        <select id="backgroundColor" [(ngModel)]="estilos['background-color']" name="backgroundColor" class="form-select">
+          <option *ngFor="let color of colores" [value]="color.valor">{{ color.nombre }}</option>
+        </select>
+      </div>
 
-  <!-- Formulario para nuevo componente -->
-  <h4 class="mt-5">Agregar nuevo componente</h4>
-  <form (ngSubmit)="crearComponente()" class="row g-3">
-    <div class="col-md-5">
-      <input [(ngModel)]="nuevoComponente.nombre" name="nombre" class="form-control" placeholder="Nombre del componente" required />
-    </div>
-    <div class="col-md-5">
-      <input [(ngModel)]="nuevoComponente.valor" name="valor" class="form-control" placeholder="Valor del componente" required />
-    </div>
-    <div class="col-md-2">
-      <button type="submit" class="btn btn-success w-100">Crear</button>
+      <!-- Color de botones -->
+      <div class="col-md-6">
+        <label for="botonColor" class="form-label">Color de botones:</label>
+        <select id="botonColor" [(ngModel)]="estilos['btn-primary']" name="botonColor" class="form-select">
+          <option *ngFor="let color of colores" [value]="color.valor">{{ color.nombre }}</option>
+        </select>
+      </div>
+
+      <!-- Tamaño de botones -->
+      <div class="col-md-6">
+        <label for="botonSize" class="form-label">Tamaño de botones:</label>
+        <select id="botonSize" [(ngModel)]="estilos['btn-size']" name="botonSize" class="form-select">
+          <option *ngFor="let t of tamanos" [value]="t.valor">{{ t.nombre }}</option>
+        </select>
+      </div>
+
+      <!-- Color del header -->
+      <div class="col-md-6">
+        <label for="headerColor" class="form-label">Color del header:</label>
+        <select id="headerColor" [(ngModel)]="estilos['header-color']" name="headerColor" class="form-select">
+          <option *ngFor="let color of colores" [value]="color.valor">{{ color.nombre }}</option>
+        </select>
+      </div>
+
+      <div class="col-12 text-center mt-3">
+        <button type="submit" class="btn btn-success">
+          💾 Guardar cambios
+        </button>
+      </div>
     </div>
   </form>
 </div>

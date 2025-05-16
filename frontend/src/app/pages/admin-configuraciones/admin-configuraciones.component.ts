@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ComponenteService } from 'src/app/services/componente.service';
 
 @Component({
   selector: 'app-admin-configuraciones',
@@ -11,73 +11,51 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./admin-configuraciones.component.scss']
 })
 export class AdminConfiguracionesComponent implements OnInit {
-  componentes: any[] = [];
-  nuevoComponente = {
-    nombre: '',
-    valor: ''
-  };
+  estilos: { [clave: string]: string } = {};
   mensaje: string = '';
 
-  constructor(private http: HttpClient) {}
+  colores = [
+    { valor: '#ffffff', nombre: 'Blanco' },
+    { valor: '#faf1e6', nombre: 'Beige' },
+    { valor: '#f0f0f0', nombre: 'Gris claro' },
+    { valor: '#343a40', nombre: 'Oscuro' },
+    { valor: '#007bff', nombre: 'Azul' },
+    { valor: '#ff8c42', nombre: 'Naranja' }
+  ];
+
+  tamanos = [
+    { valor: 'sm', nombre: 'Pequeño' },
+    { valor: 'md', nombre: 'Mediano' },
+    { valor: 'lg', nombre: 'Grande' }
+  ];
+
+  constructor(private componenteService: ComponenteService) {}
 
   ngOnInit(): void {
-    this.cargarComponentes();
-  }
-
-  cargarComponentes(): void {
-    this.http.get('/api/componentes').subscribe({
-      next: (res: any) => {
-        this.componentes = res;
+    this.componenteService.getComponentes().subscribe({
+      next: componentes => {
+        componentes.forEach(c => {
+          this.estilos[c.clave] = c.valor;
+        });
       },
-      error: err => {
-        console.error('Error al cargar componentes:', err);
-      }
+      error: err => console.error('Error cargando configuraciones:', err)
     });
   }
 
-  actualizarComponente(comp: any): void {
-    this.http.put(`/api/componentes/${comp.id}`, { valor: comp.valor }).subscribe({
-      next: (res: any) => {
-        this.mensaje = `Componente "${comp.nombre}" actualizado correctamente`;
-        setTimeout(() => this.mensaje = '', 3000);
-      },
-      error: err => {
-        console.error('Error al actualizar componente:', err);
-      }
+  guardarCambios(): void {
+    const cambios = Object.entries(this.estilos).filter(([clave, valor]) => clave && clave !== 'undefined');
+    cambios.forEach(([clave, valor]) => {
+      this.componenteService.updateComponente(clave, valor).subscribe({
+
+        next: () => {
+          this.mensaje = 'Cambios guardados correctamente';
+          setTimeout(() => this.mensaje = '', 3000);
+        },
+        error: err => {
+          console.error(`Error actualizando ${clave}:`, err);
+        }
+      });
     });
   }
 
-  crearComponente(): void {
-    if (!this.nuevoComponente.nombre || !this.nuevoComponente.valor) {
-      this.mensaje = 'Rellena todos los campos.';
-      return;
-    }
-
-    this.http.post('/api/componentes', this.nuevoComponente).subscribe({
-      next: (res: any) => {
-        this.mensaje = 'Componente creado correctamente';
-        this.nuevoComponente = { nombre: '', valor: '' };
-        this.cargarComponentes();
-        setTimeout(() => this.mensaje = '', 3000);
-      },
-      error: err => {
-        console.error('Error al crear componente:', err);
-      }
-    });
-  }
-
-  eliminarComponente(id: number): void {
-    if (!confirm('¿Estás seguro de eliminar este componente?')) return;
-
-    this.http.delete(`/api/componentes/${id}`).subscribe({
-      next: () => {
-        this.mensaje = 'Componente eliminado';
-        this.componentes = this.componentes.filter(c => c.id !== id);
-        setTimeout(() => this.mensaje = '', 3000);
-      },
-      error: err => {
-        console.error('Error al eliminar componente:', err);
-      }
-    });
-  }
 }
