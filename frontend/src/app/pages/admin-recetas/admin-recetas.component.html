@@ -1,0 +1,28 @@
+<div class="container mt-5">
+  <h2 class="mb-4">🍲 Gestión de Recetas</h2>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Categoría</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let r of recetas">
+        <td>{{ r.id }}</td>
+        <td>{{ r.name }}</td>
+        <td>{{ r.category }}</td>
+        <td>
+          <button (click)="eliminarReceta(r.id)" class="btn btn-danger btn-sm">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="mensaje" class="alert alert-success mt-3 text-center">
+    {{ mensaje }}
+  </div>
+</div>
