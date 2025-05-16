@@ -46,7 +46,8 @@ export const routes: Routes = [
   {path: 'admin',children: [
     { path: '', loadComponent: () => import('./pages/admin-home/admin-home.component').then(m => m.AdminHomeComponent) },
     { path: 'usuarios', loadComponent: () => import('./pages/admin-usuarios/admin-usuarios.component').then(m => m.AdminUsuariosComponent) },
-    { path: 'recetas', loadComponent: () => import('./pages/admin-recetas/admin-recetas.component').then(m => m.AdminRecetasComponent) }
+    { path: 'recetas', loadComponent: () => import('./pages/admin-recetas/admin-recetas.component').then(m => m.AdminRecetasComponent) },
+    { path: 'chart', loadComponent: () => import('./pages/chart/chart.component').then(m => m.ChartComponent) },
 
   ]
 },
