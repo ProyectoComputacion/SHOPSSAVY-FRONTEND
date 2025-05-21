@@ -1,5 +1,9 @@
 // header.component.scss
 /* Estilos para el navbar */
+nav.navbar {
+  background-color: var(--header-color, #ffffff) !important;
+  transition: background-color 0.3s ease;
+}
 
 /* Contenedor del navbar */
 .navbar .container-fluid {

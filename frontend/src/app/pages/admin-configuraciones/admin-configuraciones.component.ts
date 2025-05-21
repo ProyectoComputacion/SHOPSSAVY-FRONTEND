@@ -23,12 +23,6 @@ export class AdminConfiguracionesComponent implements OnInit {
     { valor: '#ff8c42', nombre: 'Naranja' }
   ];
 
-  tamanos = [
-    { valor: 'sm', nombre: 'Pequeño' },
-    { valor: 'md', nombre: 'Mediano' },
-    { valor: 'lg', nombre: 'Grande' }
-  ];
-
   constructor(private componenteService: ComponenteService) {}
 
   ngOnInit(): void {
@@ -43,13 +37,21 @@ export class AdminConfiguracionesComponent implements OnInit {
   }
 
   guardarCambios(): void {
-    const cambios = Object.entries(this.estilos).filter(([clave, valor]) => clave && clave !== 'undefined');
+    const cambios = Object.entries(this.estilos);
+    let cambiosPendientes = cambios.length;
+
     cambios.forEach(([clave, valor]) => {
       this.componenteService.updateComponente(clave, valor).subscribe({
-
         next: () => {
-          this.mensaje = 'Cambios guardados correctamente';
-          setTimeout(() => this.mensaje = '', 3000);
+          cambiosPendientes--;
+
+          // Solo recargar cuando todos los cambios estén guardados
+          if (cambiosPendientes === 0) {
+            this.mensaje = 'Cambios guardados correctamente, aplicando cambios...';
+            setTimeout(() => {
+              location.reload(); // 🔁 Recarga la web completamente (como F5)
+            }, 10); // Espera 1s para que el mensaje se vea
+          }
         },
         error: err => {
           console.error(`Error actualizando ${clave}:`, err);
@@ -57,5 +59,6 @@ export class AdminConfiguracionesComponent implements OnInit {
       });
     });
   }
+
 
 }

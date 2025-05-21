@@ -30,8 +30,17 @@ export class AppComponent implements OnInit {
   constructor(public router: Router) {}
 
   ngOnInit(): void {
-    this.cargarEstilosDesdeBD();
+    this.http.get<any[]>('http://127.0.0.1:8000/api/componentes', this.authService.header()).subscribe({
+      next: componentes => {
+        componentes.forEach(c => {
+          console.log('Estableciendo', c.clave, c.valor); // Para comprobar
+          document.documentElement.style.setProperty(`--${c.clave}`, c.valor);
+        });
+      },
+      error: err => console.error('Error cargando estilos del frontend desde la base de datos:', err)
+    });
   }
+
 
   isAuthPage(): boolean {
     return this.router.url === '/login' || this.router.url === '/register';
@@ -63,17 +72,15 @@ export class AppComponent implements OnInit {
   }
 
   cargarEstilosDesdeBD(): void {
-    this.http.get<any[]>('http://127.0.0.1:8000/api/componentes', this.authService.header()).subscribe({
-      next: componentes => {
-        componentes.forEach(c => {
-          if (c.clave && c.valor) {
+    this.http.get<any[]>('http://127.0.0.1:8000/api/componentes', this.authService.header())
+      .subscribe({
+        next: componentes => {
+          componentes.forEach(c => {
             document.documentElement.style.setProperty(`--${c.clave}`, c.valor);
-          }
-        });
-      },
-      error: err => {
-        console.error('🚫 Error cargando estilos del frontend desde la base de datos:', err);
-      }
-    });
+          });
+        },
+        error: err => console.error('Error cargando estilos del frontend desde la base de datos:', err)
+      });
   }
+
 }

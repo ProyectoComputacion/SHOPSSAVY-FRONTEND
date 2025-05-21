@@ -23,14 +23,6 @@
         </select>
       </div>
 
-      <!-- Tamaño de botones -->
-      <div class="col-md-6">
-        <label for="botonSize" class="form-label">Tamaño de botones:</label>
-        <select id="botonSize" [(ngModel)]="estilos['btn-size']" name="botonSize" class="form-select">
-          <option *ngFor="let t of tamanos" [value]="t.valor">{{ t.nombre }}</option>
-        </select>
-      </div>
-
       <!-- Color del header -->
       <div class="col-md-6">
         <label for="headerColor" class="form-label">Color del header:</label>
