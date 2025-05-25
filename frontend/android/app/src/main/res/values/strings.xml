@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">app-shopssavy</string>
+    <string name="title_activity_main">app-shopssavy</string>
+    <string name="package_name">com.shopssavy.app</string>
+    <string name="custom_url_scheme">com.shopssavy.app</string>
+</resources>

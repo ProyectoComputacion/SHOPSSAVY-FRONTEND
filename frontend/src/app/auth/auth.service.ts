@@ -3,12 +3,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment'; // ✅ Importa el entorno
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiURL = 'http://127.0.0.1:8000/api';
+  private apiURL = environment.apiUrl; // ✅ Usa la URL según el entorno
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -35,30 +36,29 @@ export class AuthService {
     );
   }
 
-register(username: string, password: string, role: string, adminKey?: string): Observable<any> {
-  const headers = new HttpHeaders({
-    'Content-Type': 'application/json',
-    'X-Requested-With': 'XMLHttpRequest'
-  });
+  register(username: string, password: string, role: string, adminKey?: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'X-Requested-With': 'XMLHttpRequest'
+    });
 
-  const payload: any = { username, password, role };
-  if (role === 'admin' && adminKey) {
-    payload.admin_key = adminKey;
+    const payload: any = { username, password, role };
+    if (role === 'admin' && adminKey) {
+      payload.admin_key = adminKey;
+    }
+
+    return this.http.post(`${this.apiURL}/register`, payload, { headers }).pipe(
+      tap((response: any) => {
+        if (response.access_token) {
+          sessionStorage.setItem('userToken', response.access_token);
+          sessionStorage.setItem('user', JSON.stringify(response.user));
+        }
+      }),
+      catchError(error => {
+        return throwError(() => new Error('Error en el registro, verifica los datos'));
+      })
+    );
   }
-
-  return this.http.post(`${this.apiURL}/register`, payload, { headers }).pipe(
-    tap((response: any) => {
-      if (response.access_token) {
-        sessionStorage.setItem('userToken', response.access_token);
-        sessionStorage.setItem('user', JSON.stringify(response.user));
-      }
-    }),
-    catchError(error => {
-      return throwError(() => new Error('Error en el registro, verifica los datos'));
-    })
-  );
-}
-
 
   logout(): void {
     sessionStorage.removeItem('userToken');
