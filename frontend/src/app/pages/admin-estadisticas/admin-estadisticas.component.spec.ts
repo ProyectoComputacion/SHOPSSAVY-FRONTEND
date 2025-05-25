@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EstadisticasComponent } from './estadisticas.component';
+// Make sure the file 'estadisticas.component.ts' exists in the same directory as this spec file.
+// If the file is named differently or in another folder, update the import path accordingly.
+import { EstadisticasComponent } from './admin-estadisticas.component';
 
 describe('EstadisticasComponent', () => {
   let component: EstadisticasComponent;
@@ -8,7 +10,7 @@ describe('EstadisticasComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EstadisticasComponent]
+      declarations: [EstadisticasComponent]
     })
     .compileComponents();
 

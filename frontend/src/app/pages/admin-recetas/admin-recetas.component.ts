@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -6,11 +7,11 @@ import { AuthService } from 'src/app/auth/auth.service';
 @Component({
   selector: 'app-admin-recetas',
   standalone: true,
-  imports: [CommonModule, HttpClientModule],
+  imports: [RouterModule, CommonModule, HttpClientModule],
   templateUrl: './admin-recetas.component.html',
   styleUrls: ['./admin-recetas.component.scss']
 })
-export class AdminRecetasComponent implements OnInit {
+export class AdminRecetasComponent {
   recetas: any[] = [];
   mensaje: string = '';
 

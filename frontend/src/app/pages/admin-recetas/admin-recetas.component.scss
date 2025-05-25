@@ -1,0 +1,46 @@
+.admin-recetas {
+  max-width: 900px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+  padding: 2.5rem 2rem 2rem 2rem;
+
+  .recetas-header {
+    h2 {
+      font-weight: 700;
+      color: var(--primary, #2c3e50);
+    }
+    p {
+      font-size: 1.08rem;
+      margin-bottom: 0;
+    }
+  }
+
+  table {
+    border-radius: 10px;
+    overflow: hidden;
+    th, td {
+      vertical-align: middle;
+    }
+    thead th {
+      background: #f4f6fa;
+      font-weight: 600;
+    }
+  }
+
+  .alert {
+    border-radius: 8px;
+    font-size: 1.05rem;
+  }
+
+  .receta-link {
+    color: var(--primary, #2c3e50);
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: 500;
+    &:hover {
+      color: #007bff;
+      text-decoration: none;
+    }
+  }
+}

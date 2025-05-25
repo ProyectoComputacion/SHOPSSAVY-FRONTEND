@@ -1,0 +1,92 @@
+.admin-estadisticas-container {
+  margin: 40px auto;
+  max-width: 800px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+  padding: 32px 24px 24px 24px;
+
+  @media (max-width: 600px) {
+    padding: 16px 4px;
+  }
+}
+
+.admin-estadisticas-header {
+  text-align: center;
+  margin-bottom: 32px;
+
+  h2 {
+    font-weight: 700;
+    color: var(--primary, #2c3e50);
+    letter-spacing: 1px;
+  }
+}
+
+.estadisticas-totales ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px 0;
+
+  li {
+    font-size: 1.1em;
+    margin-bottom: 8px;
+    color: #333;
+  }
+}
+
+.table {
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fafbfc;
+}
+
+th, td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+th {
+  font-weight: 600;
+  color: var(--primary, #2c3e50);
+  background: #f8f9fa;
+}
+
+@media (max-width: 600px) {
+  .admin-estadisticas-container {
+    padding: 8px 2px;
+  }
+  .table {
+    font-size: 0.95em;
+  }
+}
+
+.admin-estadisticas-secciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: space-between;
+
+  > div {
+    flex: 1 1 320px;
+    min-width: 280px;
+    max-width: 100%;
+  }
+}
+
+// Opcional: mejora el aspecto de las tablas y bloques
+.estadisticas-totales,
+.estadisticas-usuarios-rol,
+.estadisticas-mejores-recetas {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  margin-bottom: 0;
+}
+
+@media (max-width: 900px) {
+  .admin-estadisticas-secciones {
+    flex-direction: column;
+    gap: 20px;
+  }
+}

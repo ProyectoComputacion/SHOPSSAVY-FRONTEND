@@ -1,42 +1,52 @@
-<div class="container mt-4">
-  <h2 class="mb-3">📈 Estadísticas Generales</h2>
+<div class="admin-estadisticas-container">
+  <div class="admin-estadisticas-header">
+    <h2>📈 Estadísticas Generales</h2>
+  </div>
 
-  <h4>📊 Totales del sistema</h4>
-  <ul>
-    <li>Total de usuarios: {{ estadisticas?.usuarios_total ?? 'Cargando...' }}</li>
-    <li>Total de recetas: {{ estadisticas?.recetas_total ?? 'Cargando...' }}</li>
-    <li>Calificación promedio: {{ estadisticas?.calificacion_promedio ?? 'Cargando...' }}</li>
-  </ul>
+  <div class="admin-estadisticas-secciones">
+    <div class="estadisticas-totales mb-4">
+      <h4>📊 Totales del sistema</h4>
+      <ul>
+        <li>Total de usuarios: <strong>{{ estadisticas?.usuarios_total ?? 'Cargando...' }}</strong></li>
+        <li>Total de recetas: <strong>{{ estadisticas?.recetas_total ?? 'Cargando...' }}</strong></li>
+        <li>Calificación promedio: <strong>{{ estadisticas?.calificacion_promedio ?? 'Cargando...' }}</strong></li>
+      </ul>
+    </div>
 
-  <h4 class="mt-4">👥 Usuarios por Rol</h4>
-  <table class="table table-bordered">
-    <thead class="table-light">
-      <tr>
-        <th>Rol</th>
-        <th>Cantidad</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let rol of estadisticas?.usuarios_por_rol">
-        <td>{{ rol.role }}</td>
-        <td>{{ rol.cantidad }}</td>
-      </tr>
-    </tbody>
-  </table>
+    <div class="estadisticas-usuarios-rol mb-4">
+      <h4>👥 Usuarios por Rol</h4>
+      <table class="table table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>Rol</th>
+            <th>Cantidad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let rol of estadisticas?.usuarios_por_rol">
+            <td>{{ rol.role }}</td>
+            <td>{{ rol.cantidad }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-  <h4 class="mt-4">🥇 Recetas Mejor Calificadas</h4>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Receta</th>
-        <th>Puntuación</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let receta of estadisticas?.mejores_recetas">
-        <td>{{ receta.name }}</td>
-        <td>{{ receta.puntuacion }}</td>
-      </tr>
-    </tbody>
-  </table>
+    <div class="estadisticas-mejores-recetas">
+      <h4>🥇 Recetas Mejor Calificadas</h4>
+      <table class="table table-striped align-middle">
+        <thead>
+          <tr>
+            <th>Receta</th>
+            <th>Puntuación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let receta of estadisticas?.mejores_recetas">
+            <td>{{ receta.name }}</td>
+            <td>{{ receta.puntuacion }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

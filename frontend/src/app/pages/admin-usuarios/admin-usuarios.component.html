@@ -1,33 +1,43 @@
-<div class="container mt-5">
-  <h2 class="mb-4">👥 Gestión de Usuarios</h2>
+<div class="admin-usuarios-container">
+  <div class="admin-usuarios-header">
+    <h2>👥 Gestión de Usuarios</h2>
+  </div>
 
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Usuario</th>
-        <th>Rol</th>
-        <th>Nuevo Rol</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let u of usuarios">
-        <td>{{ u.id }}</td>
-        <td>{{ u.username }}</td>
-        <td>{{ u.role }}</td>
-        <td>
-          <select [(ngModel)]="u.nuevoRol" class="form-select">
-            <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
-          </select>
-        </td>
-        <td>
-          <button (click)="cambiarRol(u)" class="btn btn-warning btn-sm me-2">Cambiar Rol</button>
-          <button (click)="eliminarUsuario(u.id)" class="btn btn-danger btn-sm">Eliminar</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-responsive">
+    <table class="table table-hover align-middle admin-usuarios-table">
+      <thead class="table-light">
+        <tr>
+          <th>ID</th>
+          <th>Usuario</th>
+          <th>Rol</th>
+          <th>Nuevo Rol</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of usuarios">
+          <td>{{ u.id }}</td>
+          <td>{{ u.username }}</td>
+          <td>
+            <span class="badge bg-primary">{{ u.role }}</span>
+          </td>
+          <td>
+            <select [(ngModel)]="u.nuevoRol" class="form-select form-select-sm">
+              <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
+            </select>
+          </td>
+          <td>
+            <button (click)="cambiarRol(u)" class="btn btn-outline-warning btn-sm me-2">
+              Cambiar Rol
+            </button>
+            <button (click)="eliminarUsuario(u.id)" class="btn btn-outline-danger btn-sm">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <div *ngIf="mensaje" class="alert alert-success mt-3 text-center">
     {{ mensaje }}
