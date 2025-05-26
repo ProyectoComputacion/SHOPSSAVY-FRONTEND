@@ -2,7 +2,7 @@
   <div class="container page-container">
 
     <!-- Encabezado con imagen y overlay gradient -->
-    <div class="receta-header">
+    <div *ngIf="receta" class="receta-header">
       <img [src]="receta.imagen" alt="{{ receta.name }}" class="receta-img" />
       <div class="receta-overlay">
         <h3 class="receta-name">{{ receta.name }}</h3>
@@ -11,6 +11,7 @@
         </p>
       </div>
     </div>
+
 
     <!-- Ingredientes -->
     <div class="receta-info">
@@ -23,6 +24,9 @@
       <p *ngIf="ingredientes.length === 0" class="text-muted">
         No hay ingredientes disponibles.
       </p>
+      <!-- Calorias -->
+      <!--<p *ngIf="cargandoCalorias">⏳ Calculando calorías...</p>-->
+      <p *ngIf="!cargandoCalorias && calorias > 0">🔢 Calorías estimadas: {{ calorias }} kcal</p>
     </div>
 
     <!-- Acciones -->

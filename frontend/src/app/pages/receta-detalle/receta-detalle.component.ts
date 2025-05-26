@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RecetaService, Recipe, Ingredient } from '../../services/receta.service';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { CartService } from '../../services/cart.service';
 import { RatingService } from '../../services/rating.service';
 import { AppComponent } from '../../app.component';
@@ -22,13 +23,15 @@ export class RecetaDetalleComponent implements OnInit {
   recetaCargada = false;
   calificacionSeleccionada = 0;
   mensajeConfirmacion = false;
+  calorias: number = 0;
 
   constructor(
     private route: ActivatedRoute,
     private recetaService: RecetaService,
     private cartService: CartService,
     private ratingService: RatingService,
-    private app: AppComponent
+    private app: AppComponent,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
@@ -38,11 +41,20 @@ export class RecetaDetalleComponent implements OnInit {
         this.receta = data;
         this.recetaCargada = true;
       });
+
       this.recetaService.getIngredientes(id).subscribe(data => {
         this.ingredientes = data;
+        console.log("Ingredientes:", this.ingredientes);
+
+        // ⚠️ Llamar aquí al método para calcular calorías
+        const textoIngredientes = this.ingredientes.map(i =>
+          `${i.quantity} ${i.unit} de ${i.name}`
+        );
+        this.calcularCalorias(textoIngredientes);
       });
     }
   }
+
 
   volver() {
     history.back();
@@ -91,4 +103,29 @@ export class RecetaDetalleComponent implements OnInit {
       }, 2000);
     });
   }
+
+  cargandoCalorias = false;
+
+  calcularCalorias(ingredientes: string[]) {
+    this.cargandoCalorias = true;
+    this.http.post<{ calorias: string | null }>('http://127.0.0.1:8000/api/recetas/calorias', {
+      ingredientes
+    }).subscribe({
+      next: res => {
+        console.log("Resultado recibido:", res);
+        const texto = res.calorias ?? '';
+        const match = texto.match(/\d+/);
+        this.calorias = match ? Number(match[0]) : 0;
+        this.cargandoCalorias = false;
+      },
+
+      error: err => {
+        console.error('Error al calcular calorías:', err);
+        this.cargandoCalorias = false;
+      }
+    });
+  }
+
+
+
 }
