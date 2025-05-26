@@ -25,7 +25,7 @@
         No hay ingredientes disponibles.
       </p>
       <!-- Calorias -->
-      <!--<p *ngIf="cargandoCalorias">⏳ Calculando calorías...</p>-->
+      <p *ngIf="cargandoCalorias">⏳ Calculando calorías...</p>
       <p *ngIf="!cargandoCalorias && calorias > 0">🔢 Calorías estimadas: {{ calorias }} kcal</p>
     </div>
 
