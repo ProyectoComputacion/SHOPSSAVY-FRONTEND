@@ -26,6 +26,7 @@ export class HeaderComponent implements OnInit {
     { label: 'Favoritos', link: '/favoritos', protected: true },
     { label: 'Presupuesto', link: '/presupuesto' },
     { label: 'Crea Tu Receta', link: '/crear-receta', role: 'chef' },
+    { label: 'Genera tu menú', link: '/menu-generator', protected: true},
     { label: 'Configuración', link: '/admin', role: 'admin' }
   ];
 
