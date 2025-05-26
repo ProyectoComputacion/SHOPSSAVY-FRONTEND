@@ -33,11 +33,9 @@
     <div class="receta-acciones">
       <button class="btn-volver" (click)="volver()">← Volver</button>
       <button
-        type="button"
-        class="btn-calificar"
-        data-bs-toggle="modal"
-        data-bs-target="#calificarModal"
-        (click)="calificar()"
+      type="button"
+       class="btn-calificar"
+      (click)="calificar()"
       >
         ⭐ Calificar
       </button>
@@ -130,6 +128,28 @@
           ¡Calificación enviada!
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Local de Autenticación -->
+<div class="modal fade" id="authModalLocal" tabindex="-1" aria-labelledby="authModalLocalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-center">
+      
+      <div class="modal-header">
+        <h5 class="modal-title w-100" id="authModalLocalLabel">Inicio de sesión requerido</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      
+      <div class="modal-body">
+        <p>Para realizar esta acción necesitas tener una cuenta.</p>
+        <div class="d-flex justify-content-center gap-3 mt-3">
+          <button class="btn btn-outline-primary" (click)="redirigirLogin()">Iniciar sesión</button>
+          <button class="btn btn-outline-secondary" (click)="redirigirRegistro()">Registrarse</button>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>

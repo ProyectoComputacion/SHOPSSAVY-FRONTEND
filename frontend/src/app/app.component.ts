@@ -6,6 +6,8 @@ import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './shared/header/header.component';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AuthService } from './auth/auth.service';
+import { RecetaDetalleComponent } from './pages/receta-detalle/receta-detalle.component'; 
+
 
 declare var bootstrap: any;
 
@@ -18,6 +20,7 @@ declare var bootstrap: any;
     RouterModule,
     RouterOutlet,
     HeaderComponent,
+  
     HttpClientModule
   ],
   templateUrl: './app.component.html',

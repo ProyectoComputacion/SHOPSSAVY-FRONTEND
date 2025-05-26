@@ -1,0 +1,61 @@
+/* Cursor y efecto al hacer hover sobre recetas */
+.clickable {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.clickable:hover {
+  transform: scale(1.02);
+}
+
+/* Imagen dentro de cards de recetas */
+.card img {
+  width: 100%;
+  max-height: 150px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+/* Estilo para encabezado de las cards */
+.card-header {
+  font-size: 1.2rem;
+}
+
+/* Fondo de las cards por día (menú semanal) */
+.bg-receta-dia {
+  background-color: var(--background-color, #faf1e6) !important;
+}
+
+/* Fondo personalizado para encabezado de día (reemplaza bg-primary) */
+.bg-dia-semana {
+  background-color: var(--day-header-color, #ffc67b);
+  color: white;
+}
+
+/* === Slider personalizado para menú generator === */
+.slider-menu {
+  width: 100%;
+  height: 0.5rem;
+  background: #ffe76e;
+  border-radius: 8px;
+  appearance: none;
+  margin: 20px 0;
+  cursor: pointer;
+}
+
+/* Thumb para Chrome, Safari, Edge */
+.slider-menu::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #ffe76e;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+.slider-menu:hover::-webkit-slider-thumb {
+  background-color: #ffd93b;
+}
+
+

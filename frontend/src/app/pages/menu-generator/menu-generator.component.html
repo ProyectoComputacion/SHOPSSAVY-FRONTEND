@@ -1,44 +1,74 @@
-<div class="container mt-5">
-  <h2 class="text-center mb-4">Generar Menú Semanal</h2>
-  
-  <div class="card shadow p-4">
-    <div class="row">
-      <div class="col-md-8">
-        <input 
-          type="number" 
-          [(ngModel)]="budget" 
-          class="form-control" 
-          placeholder="Introduce tu presupuesto (€)"
-        />
-      </div>
-      <div class="col-md-4">
-        <button class="btn btn-primary w-100" (click)="generateMenu()">Generar Menú</button>
+<div class="py-4 bg-beige">
+  <div class="container page-container">
+    <h2 class="text-center mb-4">Generar Menú Semanal</h2>
+
+    <!-- Selector de presupuesto -->
+    <div class="card shadow-sm p-4 mb-4 bg-white">
+      <!-- Presupuesto centrado arriba -->
+      <label for="presupuestoRange" class="form-label text-center d-block mb-3">
+        Presupuesto: <strong>{{ budget }}€</strong>
+      </label>
+
+      <!-- Slider + botón alineados horizontalmente -->
+      <div class="row g-3 align-items-center">
+        <div class="col-md-8 d-flex align-items-center">
+          <input 
+            type="range" 
+            class="slider-menu w-100" 
+            id="presupuestoRange" 
+            min="50" 
+            max="100" 
+            step="1" 
+            [(ngModel)]="budget"
+          >
+        </div>
+        <div class="col-md-4 d-flex align-items-center">
+          <button class="btn btn-primary-custom w-100" (click)="generateMenu()">
+            Generar Menú
+          </button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Mensaje de error -->
-  <p *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</p>
+    <!-- Mensaje de error -->
+    <p *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</p>
 
-  <!-- Tabla de resultados -->
-  <div *ngIf="recipes.length" class="mt-4">
-    <h3 class="text-center">Menú Semanal (14 recetas)</h3>
-    <table class="table table-striped table-bordered mt-3">
-      <thead class="table-dark">
-        <tr>
-          <th>Receta</th>
-          <th>Precio (€)</th>
-          <th>Supermercado</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let recipe of recipes">
-          <td>{{ recipe.recipe_name }}</td>
-          <td>{{ recipe.price }}</td>
-          <td>{{ recipe.supermarket_name }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <h5 class="text-end mt-3">Total: {{ totalPrice }} €</h5>
+    <!-- Vista del menú por días -->
+    <div *ngIf="distributedRecipes.length" class="mt-5">
+      <h3 class="text-center mb-4">Menú Semanal (14 recetas)</h3>
+      <div class="row g-4">
+        <div *ngFor="let day of weekDays; let i = index" class="col-12 col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm bg-receta-dia">
+            <div class="card-header text-center bg-dia-semana fw-bold">
+              {{ day }}
+            </div>
+            <div class="card-body">
+              <div 
+                *ngFor="let recipe of distributedRecipes[i]" 
+                class="mb-3 clickable" 
+                (click)="verDetalles(recipe.id)"
+              >
+                <img 
+                  *ngIf="recipe.imagen" 
+                  [src]="recipe.imagen" 
+                  class="img-fluid rounded mb-2 w-100" 
+                  style="max-height: 150px; object-fit: cover;" 
+                  alt="{{ recipe.recipe_name }}"
+                >
+                <h5>{{ recipe.recipe_name }}</h5>
+                <p class="mb-1"><strong>💰 Precio:</strong> €{{ recipe.price }}</p>
+                <p class="mb-1"><strong>🛒 Supermercado:</strong> {{ recipe.supermarket_name }}</p>
+                <p class="mb-0"><strong>🍽️ Tipo:</strong> {{ recipe.tipo }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Precio total -->
+      <div class="text-end mt-4">
+        <h4>Total estimado: <strong>{{ totalPrice.toFixed(2) }} €</strong></h4>
+      </div>
+    </div>
   </div>
 </div>

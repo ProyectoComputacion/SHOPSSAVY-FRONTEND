@@ -6,7 +6,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 import { CartService } from '../../services/cart.service';
 import { RatingService } from '../../services/rating.service';
-import { AppComponent } from '../../app.component';
 
 declare const bootstrap: any;
 
@@ -18,6 +17,7 @@ declare const bootstrap: any;
   styleUrls: ['./receta-detalle.component.scss']
 })
 export class RecetaDetalleComponent implements OnInit {
+
   receta!: Recipe;
   ingredientes: Ingredient[] = [];
   recetaCargada = false;
@@ -30,8 +30,7 @@ export class RecetaDetalleComponent implements OnInit {
     private recetaService: RecetaService,
     private cartService: CartService,
     private ratingService: RatingService,
-    private app: AppComponent,
-    private http: HttpClient
+    private http: HttpClient,
   ) {}
 
   ngOnInit(): void {
@@ -62,7 +61,7 @@ export class RecetaDetalleComponent implements OnInit {
 
   agregarAlCarrito() {
     if (!sessionStorage.getItem('user_id')) {
-      this.app.mostrarModalAuth();
+      this.mostrarModalLocal();
       return;
     }
     this.cartService.addToCart(
@@ -77,11 +76,12 @@ export class RecetaDetalleComponent implements OnInit {
 
   calificar() {
     if (!sessionStorage.getItem('user_id')) {
-      this.app.mostrarModalAuth();
+      this.mostrarModalLocal();
       return;
-    }
-    const modalEl = document.getElementById('calificarModal');
-    bootstrap.Modal.getOrCreateInstance(modalEl).show();
+    } else{   
+      const modalEl = document.getElementById('calificarModal');
+      bootstrap.Modal.getOrCreateInstance(modalEl).show();}
+  
   }
 
   seleccionarCalificacion(valor: number) {
@@ -126,6 +126,30 @@ export class RecetaDetalleComponent implements OnInit {
     });
   }
 
+redirigirLogin(): void {
+  const modalEl = document.getElementById('authModalLocal');
+  if (modalEl) bootstrap.Modal.getInstance(modalEl)?.hide();
+  window.location.href = '/login';
+}
+
+redirigirRegistro(): void {
+  const modalEl = document.getElementById('authModalLocal');
+  if (modalEl) bootstrap.Modal.getInstance(modalEl)?.hide();
+  window.location.href = '/register';
+}
+
+mostrarModalLocal() {
+  const modalEl = document.getElementById('authModalLocal');
+  if (modalEl) {
+    const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+    modal.show();
+
+    // Forzar el foco en el modal (accesibilidad)
+    setTimeout(() => {
+      modalEl.focus();
+    }, 150);
+  }
+}
 
 
 }

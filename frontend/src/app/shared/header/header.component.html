@@ -30,7 +30,7 @@
         <ng-container *ngIf="isLoggedIn; else loginLink">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleLogoutMenu($event)">
-              Otras Opciones
+              Opciones de sesión
             </a>
             <ul class="dropdown-menu" [ngClass]="{ 'show': logoutMenuOpen }">
               <li>
