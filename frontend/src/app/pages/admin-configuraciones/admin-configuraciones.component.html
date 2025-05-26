@@ -1,43 +1,47 @@
-<div class="admin-configuraciones-container">
-  <div class="admin-configuraciones-header">
-    <h2>🎨 Personalización </h2>
-  </div>
-
-  <div *ngIf="mensaje" class="alert alert-success text-center">
-    {{ mensaje }}
-  </div>
-
-  <form (ngSubmit)="guardarCambios()">
-    <div class="row g-4">
-      <!-- Color de fondo -->
-      <div class="col-md-6">
-        <label for="backgroundColor" class="form-label">Color de fondo:</label>
-        <select id="backgroundColor" [(ngModel)]="estilos['background-color']" name="backgroundColor" class="form-select">
-          <option *ngFor="let color of colores" [value]="color.valor">{{ color.nombre }}</option>
-        </select>
+<div class="py-4 bg-beige">
+  <div class="container page-container">
+    <div class="admin-configuraciones-container">
+      <div class="admin-configuraciones-header">
+        <h2>🎨 Personalización </h2>
       </div>
 
-      <!-- Color de botones -->
-      <div class="col-md-6">
-        <label for="botonColor" class="form-label">Color de botones:</label>
-        <select id="botonColor" [(ngModel)]="estilos['btn-primary']" name="botonColor" class="form-select">
-          <option *ngFor="let color of colores" [value]="color.valor">{{ color.nombre }}</option>
-        </select>
+      <div *ngIf="mensaje" class="alert alert-success text-center">
+        {{ mensaje }}
       </div>
 
-      <!-- Color del header -->
-      <div class="col-md-6">
-        <label for="headerColor" class="form-label">Color del header:</label>
-        <select id="headerColor" [(ngModel)]="estilos['header-color']" name="headerColor" class="form-select">
-          <option *ngFor="let color of colores" [value]="color.valor">{{ color.nombre }}</option>
-        </select>
-      </div>
+      <form (ngSubmit)="guardarCambios()">
+        <div class="row g-4">
+          <!-- Color de fondo -->
+          <div class="col-md-6">
+            <label for="backgroundColor" class="form-label">Color de fondo:</label>
+            <select id="backgroundColor" [(ngModel)]="estilos['background-color']" name="backgroundColor" class="form-select">
+              <option *ngFor="let color of colores" [value]="color.valor">{{ color.nombre }}</option>
+            </select>
+          </div>
 
-      <div class="col-12 text-center mt-4">
-        <button type="submit" class="btn btn-success px-4 py-2">
-          💾 Guardar cambios
-        </button>
-      </div>
+          <!-- Color de botones -->
+          <div class="col-md-6">
+            <label for="botonColor" class="form-label">Color de botones:</label>
+            <select id="botonColor" [(ngModel)]="estilos['btn-primary']" name="botonColor" class="form-select">
+              <option *ngFor="let color of colores" [value]="color.valor">{{ color.nombre }}</option>
+            </select>
+          </div>
+
+          <!-- Color del header -->
+          <div class="col-md-6">
+            <label for="headerColor" class="form-label">Color del header:</label>
+            <select id="headerColor" [(ngModel)]="estilos['header-color']" name="headerColor" class="form-select">
+              <option *ngFor="let color of colores" [value]="color.valor">{{ color.nombre }}</option>
+            </select>
+          </div>
+
+          <div class="col-12 text-center mt-4">
+            <button type="submit" class="btn btn-success px-4 py-2">
+              💾 Guardar cambios
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
-  </form>
+  </div>
 </div>
