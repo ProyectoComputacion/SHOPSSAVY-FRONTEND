@@ -71,4 +71,8 @@ export class FavoritosComponent implements OnInit {
   verDetalles(recipeId: number): void {
     this.router.navigate(['/receta-detalle', recipeId]);
   }
+
+  verReceta(): void {
+    this.router.navigate(['/recetas']);
+  }
 }

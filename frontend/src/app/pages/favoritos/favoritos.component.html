@@ -55,6 +55,17 @@
 
     <!-- GRID de Favoritos -->
     <div class="recetas-grid">
+
+      <!-- ❗Mensaje si no hay favoritos -->
+      <div *ngIf="favoritos.length === 0" class="text-center text-muted mt-5">
+        <p class="fs-5">😢 Aún no tienes recetas favoritas.</p>
+        <p>Explora las recetas y marca tus favoritas para verlas aquí.</p>
+        <button class="btn btn-primary-custom mt-3" (click)="verReceta();">
+          🔍 Explorar Recetas
+        </button>
+      </div>
+
+      <!-- Tarjetas de favoritos -->
       <div
         class="receta-card"
         *ngFor="let favorito of favoritos"
@@ -78,6 +89,7 @@
           </button>
         </div>
       </div>
+
     </div>
 
   </div>
