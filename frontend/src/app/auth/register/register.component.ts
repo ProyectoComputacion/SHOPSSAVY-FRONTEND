@@ -16,6 +16,7 @@ export class RegisterComponent {
   password = '';
   role = 'user'; // Default role
   adminKey = '';
+  chefKey = '';
   errorMessage = '';
   passwordError = ''; // Mensaje de error para la contraseña
   isLoading = false; // Estado de carga
@@ -26,6 +27,11 @@ export class RegisterComponent {
     console.log('📩 Rol seleccionado antes de enviar:', this.role);
 
     if (this.role === 'admin' && this.adminKey !== 'admin123') {
+      this.errorMessage = 'Clave secreta incorrecta para registrar un administrador.';
+      return;
+    }
+
+    if (this.role === 'chef' && this.chefKey !== 'chef123') {
       this.errorMessage = 'Clave secreta incorrecta para registrar un administrador.';
       return;
     }

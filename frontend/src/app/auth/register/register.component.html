@@ -25,6 +25,12 @@
           <label>Clave secreta para administrador</label>
           <input type="text" class="form-control" [(ngModel)]="adminKey" name="adminKey" required />
         </div>
+
+        <!-- SOLO se muestra si se elige chef -->
+        <div class="mb-3" *ngIf="role === 'chef'">
+          <label>Clave secreta para chef</label>
+          <input type="text" class="form-control" [(ngModel)]="chefKey" name="chefKey" required />
+        </div>
        
 
         <!-- Mensajes de error -->
