@@ -74,35 +74,51 @@ export class RecetaDetalleComponent implements OnInit {
     });
   }
 
-  calificar() {
-    if (!sessionStorage.getItem('user_id')) {
-      this.mostrarModalLocal();
-      return;
-    } else{   
-      const modalEl = document.getElementById('calificarModal');
-      bootstrap.Modal.getOrCreateInstance(modalEl).show();}
-  
+calificar() {
+  if (!sessionStorage.getItem('user_id')) {
+    this.mostrarModalLocal();
+    return;
+  } else {   
+    const modalEl = document.getElementById('calificarModal');
+    if (modalEl) {
+      modalEl.setAttribute('aria-hidden', 'false'); // <- Esto soluciona la advertencia
+      bootstrap.Modal.getOrCreateInstance(modalEl).show();
+
+      // Enfocar el modal por accesibilidad
+      setTimeout(() => {
+        modalEl.focus();
+      }, 150);
+    }
   }
+}
+
 
   seleccionarCalificacion(valor: number) {
     this.calificacionSeleccionada = valor;
   }
 
-  confirmarCalificacion() {
-    const userId = Number(sessionStorage.getItem('user_id'));
-    this.ratingService.enviarCalificacion(
-      userId,
-      this.receta.id,
-      this.calificacionSeleccionada
-    ).subscribe(() => {
-      this.mensajeConfirmacion = true;
-      setTimeout(() => {
-        this.mensajeConfirmacion = false;
-        const modalEl = document.getElementById('calificarModal');
-        bootstrap.Modal.getInstance(modalEl).hide();
-      }, 2000);
-    });
-  }
+confirmarCalificacion() {
+  const userId = Number(sessionStorage.getItem('user_id'));
+  this.ratingService.enviarCalificacion(
+    userId,
+    this.receta.id,
+    this.calificacionSeleccionada
+  ).subscribe(() => {
+    this.mensajeConfirmacion = true;
+
+    setTimeout(() => {
+      this.mensajeConfirmacion = false;
+      const modalEl = document.getElementById('calificarModal');
+      const modalInstance = bootstrap.Modal.getInstance(modalEl);
+      if (modalInstance) {
+        modalInstance.hide();
+      }
+      if (modalEl) {
+        modalEl.setAttribute('aria-hidden', 'true'); // <- ESTA LÍNEA
+      }
+    }, 2000);
+  });
+}
 
   cargandoCalorias = false;
 
